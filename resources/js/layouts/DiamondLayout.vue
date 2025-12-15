@@ -58,23 +58,19 @@ const closeMobileMenu = () => {
 const scrollToSection = (sectionId: string) => {
     closeMobileMenu();
     
-    // Check if we're on the home page
-    const currentRoute = router.currentRoute.value.name;
+    // Map section IDs to route names
+    const sectionRoutes: Record<string, string> = {
+        collection: 'Collection',
+        features: 'Craftsmanship',
+        testimonials: 'Testimonials',
+        contact: 'Contact',
+    };
     
-    if (currentRoute === 'Home') {
-        // Update URL hash to trigger title update via router handler
-        router.push({ hash: `#${sectionId}` }).then(() => {
-            // Scroll to the section
-            nextTick(() => {
-                const element = document.getElementById(sectionId);
-                if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-    } else {
-        // We're on a different page, navigate to home with hash
-        router.push({ name: 'Home', hash: `#${sectionId}` }).then(() => {
+    const routeName = sectionRoutes[sectionId];
+    
+    if (routeName) {
+        // Navigate to the route (e.g., /collection instead of /#collection)
+        router.push({ name: routeName }).then(() => {
             // Wait for the page to load and DOM to be ready, then scroll
             nextTick(() => {
                 setTimeout(() => {
@@ -145,8 +141,8 @@ const viewCollection = (cutName: string) => {
             scrollAndHighlight();
         });
     } else {
-        // We're on a different page, navigate to home with hash
-        router.push({ name: 'Home', hash: '#collection' }).then(() => {
+        // We're on a different page, navigate to collection route
+        router.push({ name: 'Collection' }).then(() => {
             nextTick(() => {
                 setTimeout(() => {
                     scrollAndHighlight();
@@ -380,10 +376,10 @@ onUnmounted(() => {
 
                 <!-- Desktop Navigation -->
                 <div class="hidden items-center gap-6 lg:flex lg:gap-10">
-                    <a @click.prevent="scrollToSection('collection')" href="#collection" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-cyan-400">COLLECTION</a>
-                    <a @click.prevent="scrollToSection('features')" href="#features" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-purple-400">CRAFTSMANSHIP</a>
-                    <a @click.prevent="scrollToSection('testimonials')" href="#testimonials" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-pink-400">TESTIMONIALS</a>
-                    <a @click.prevent="scrollToSection('contact')" href="#contact" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-cyan-400">CONTACT</a>
+                    <a @click.prevent="scrollToSection('collection')" href="/collection" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-cyan-400">COLLECTION</a>
+                    <a @click.prevent="scrollToSection('features')" href="/craftsmanship" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-purple-400">CRAFTSMANSHIP</a>
+                    <a @click.prevent="scrollToSection('testimonials')" href="/testimonials" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-pink-400">TESTIMONIALS</a>
+                    <a @click.prevent="scrollToSection('contact')" href="/contact" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-cyan-400">CONTACT</a>
                 </div>
 
                 <!-- Desktop CTA -->
@@ -458,28 +454,28 @@ onUnmounted(() => {
                         <div class="flex min-h-full flex-col items-center justify-center gap-3 px-4 py-6 sm:gap-4 sm:px-6 sm:py-8 md:gap-5 md:py-10">
                             <!-- Navigation Links -->
                             <a
-                                href="#collection"
+                                href="/collection"
                                 @click.prevent="scrollToSection('collection')"
                                 class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-cyan-400 active:scale-95 sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
                             >
                                 COLLECTION
                             </a>
                             <a
-                                href="#features"
+                                href="/craftsmanship"
                                 @click.prevent="scrollToSection('features')"
                                 class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-purple-400 active:scale-95 sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
                             >
                                 CRAFTSMANSHIP
                             </a>
                             <a
-                                href="#testimonials"
+                                href="/testimonials"
                                 @click.prevent="scrollToSection('testimonials')"
                                 class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-pink-400 active:scale-95 sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
                             >
                                 TESTIMONIALS
                             </a>
                             <a
-                                href="#contact"
+                                href="/contact"
                                 @click.prevent="scrollToSection('contact')"
                                 class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-cyan-400 active:scale-95 sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
                             >
@@ -556,10 +552,10 @@ onUnmounted(() => {
                     <div>
                         <h4 class="mb-4 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-xs tracking-[0.2em] text-transparent sm:mb-6">COLLECTIONS</h4>
                         <ul class="space-y-2 text-sm text-gray-500 sm:space-y-3">
-                            <li><a @click.prevent="viewCollection('Round Cut')" href="#collection" class="cursor-pointer transition-colors hover:text-white">Round Cut</a></li>
-                            <li><a @click.prevent="viewCollection('Pear Cut')" href="#collection" class="cursor-pointer transition-colors hover:text-white">Pear Cut</a></li>
-                            <li><a @click.prevent="viewCollection('Oval Cut')" href="#collection" class="cursor-pointer transition-colors hover:text-white">Oval Cut</a></li>
-                            <li><a @click.prevent="viewCollection('Emerald Cut')" href="#collection" class="cursor-pointer transition-colors hover:text-white">Emerald Cut</a></li>
+                            <li><a @click.prevent="viewCollection('Round Cut')" href="/collection" class="cursor-pointer transition-colors hover:text-white">Round Cut</a></li>
+                            <li><a @click.prevent="viewCollection('Pear Cut')" href="/collection" class="cursor-pointer transition-colors hover:text-white">Pear Cut</a></li>
+                            <li><a @click.prevent="viewCollection('Oval Cut')" href="/collection" class="cursor-pointer transition-colors hover:text-white">Oval Cut</a></li>
+                            <li><a @click.prevent="viewCollection('Emerald Cut')" href="/collection" class="cursor-pointer transition-colors hover:text-white">Emerald Cut</a></li>
                         </ul>
                     </div>
 
@@ -567,10 +563,10 @@ onUnmounted(() => {
                     <div>
                         <h4 class="mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-xs tracking-[0.2em] text-transparent sm:mb-6">SERVICES</h4>
                         <ul class="space-y-2 text-sm text-gray-500 sm:space-y-3">
-                            <li><a @click.prevent="viewService('Private Consultations')" href="#contact" class="cursor-pointer transition-colors hover:text-white">Private Consultations</a></li>
+                            <li><a @click.prevent="viewService('Private Consultations')" href="/contact" class="cursor-pointer transition-colors hover:text-white">Private Consultations</a></li>
                             <li><a @click.prevent="viewService('Diamond Education')" href="/blog" class="cursor-pointer transition-colors hover:text-white">Diamond Education</a></li>
-                            <li><a @click.prevent="viewService('Cleaning & Care')" href="#contact" class="cursor-pointer transition-colors hover:text-white">Cleaning & Care</a></li>
-                            <li><a @click.prevent="viewService('Insurance Appraisals')" href="#contact" class="cursor-pointer transition-colors hover:text-white">Insurance Appraisals</a></li>
+                            <li><a @click.prevent="viewService('Cleaning & Care')" href="/contact" class="cursor-pointer transition-colors hover:text-white">Cleaning & Care</a></li>
+                            <li><a @click.prevent="viewService('Insurance Appraisals')" href="/contact" class="cursor-pointer transition-colors hover:text-white">Insurance Appraisals</a></li>
                             <li><RouterLink to="/blog" class="transition-colors hover:text-white">Blog</RouterLink></li>
                         </ul>
                     </div>
@@ -596,9 +592,9 @@ onUnmounted(() => {
                 <div class="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 sm:mt-12 sm:flex-row">
                     <p class="text-xs text-gray-600">&copy; 2025 GEMS. All rights reserved.</p>
                     <div class="flex flex-wrap justify-center gap-4 text-xs text-gray-600 sm:gap-6">
-                        <a @click.prevent="viewPolicy('Privacy Policy')" href="#contact" class="cursor-pointer transition-colors hover:text-white">Privacy Policy</a>
-                        <a @click.prevent="viewPolicy('Terms of Service')" href="#contact" class="cursor-pointer transition-colors hover:text-white">Terms of Service</a>
-                        <a @click.prevent="viewPolicy('Cookie Policy')" href="#contact" class="cursor-pointer transition-colors hover:text-white">Cookie Policy</a>
+                        <a @click.prevent="viewPolicy('Privacy Policy')" href="/contact" class="cursor-pointer transition-colors hover:text-white">Privacy Policy</a>
+                        <a @click.prevent="viewPolicy('Terms of Service')" href="/contact" class="cursor-pointer transition-colors hover:text-white">Terms of Service</a>
+                        <a @click.prevent="viewPolicy('Cookie Policy')" href="/contact" class="cursor-pointer transition-colors hover:text-white">Cookie Policy</a>
                     </div>
                 </div>
             </div>

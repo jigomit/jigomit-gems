@@ -4,15 +4,6 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 
-// Unregister any existing service workers (fixes cached manifest issues)
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.getRegistrations().then((registrations) => {
-        for (const registration of registrations) {
-            registration.unregister();
-        }
-    });
-}
-
 // Global title handler - updates document.title on route change
 // Handles hash fragments for section navigation on home page
 const sectionNames: Record<string, string> = {

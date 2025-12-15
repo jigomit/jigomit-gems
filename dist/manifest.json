@@ -1,0 +1,17 @@
+{
+    "name": "GEMS - Luxury Diamond Jewelry & Engagement Rings",
+    "short_name": "GEMS",
+    "description": "Discover exceptional GIA certified diamonds and luxury engagement rings at GEMS Fifth Avenue New York. Expert diamond education guides and consultation services.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a0a0f",
+    "theme_color": "#06b6d4",
+    "icons": [
+        {
+            "src": "/favicon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}
+

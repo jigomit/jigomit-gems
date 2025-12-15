@@ -1,2 +1,9 @@
 User-agent: *
-Disallow:
+Allow: /
+
+# Sitemap
+Sitemap: https://gems.com/sitemap.xml
+
+# Disallow admin and private areas (if any)
+# Disallow: /admin/
+# Disallow: /private/
