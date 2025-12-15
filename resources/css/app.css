@@ -1,0 +1,195 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme inline {
+    --font-sans: Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+
+    /* Modern Diamond Color Palette */
+    --color-diamond: #e8f4fc;
+    --color-diamond-light: #f0f9ff;
+    --color-diamond-blue: #7dd3fc;
+    --color-diamond-purple: #c4b5fd;
+    --color-diamond-pink: #f9a8d4;
+    --color-platinum: #e5e7eb;
+    --color-gold: #fbbf24;
+    --color-rose-gold: #fda4af;
+    --color-obsidian: #0a0a0f;
+    --color-charcoal: #18181b;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Selection styling */
+::selection {
+    background: rgba(251, 191, 36, 0.3);
+    color: #fff;
+}
+
+/* Custom scrollbar for luxury dark theme */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #b45309, #78350f);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #d97706, #92400e);
+}
+
+/* Global font smoothing */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Serif font class */
+.font-serif {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* Smooth transitions for all interactive elements */
+a, button {
+    transition-property: color, background-color, border-color, transform, box-shadow;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus styles for accessibility */
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid #fbbf24;
+    outline-offset: 2px;
+}
+
+/* Hide scrollbar during page load animation */
+.loading-active {
+    overflow: hidden;
+}
+
+/* Animate on scroll helper classes */
+.animate-fade-up {
+    animation: fadeUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Shimmer effect for luxury elements */
+.shimmer {
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(251, 191, 36, 0.1),
+        transparent
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Responsive typography scaling */
+@media (max-width: 640px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 1536px) {
+    html {
+        font-size: 18px;
+    }
+}
+
+/* Custom breakpoint for extra small screens (iPhone SE, etc.) */
+@media (min-width: 375px) {
+    .xs\:gap-4 {
+        gap: 1rem;
+    }
+    .xs\:py-8 {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    .xs\:px-6 {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    .xs\:text-xl {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+    }
+    .xs\:text-sm {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+    .xs\:max-w-\[320px\] {
+        max-width: 320px;
+    }
+    .xs\:mt-3 {
+        margin-top: 0.75rem;
+    }
+    .xs\:p-4 {
+        padding: 1rem;
+    }
+    .xs\:text-xs {
+        font-size: 0.75rem;
+        line-height: 1rem;
+    }
+}
+
+/* Mobile menu link styling for all screen sizes */
+.mobile-menu-link {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+}
+
+/* Touch-friendly interactions */
+.touch-manipulation {
+    touch-action: manipulation;
+}
+
+/* Ensure proper spacing on very small screens */
+@media (max-width: 374px) {
+    .mobile-menu-link {
+        font-size: 0.875rem;
+        padding: 0.75rem 1rem;
+    }
+}
+
+/* Better spacing for small to medium mobile screens */
+@media (min-width: 375px) and (max-width: 640px) {
+    .mobile-menu-link {
+        font-size: 1rem;
+    }
+}
