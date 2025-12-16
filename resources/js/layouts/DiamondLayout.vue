@@ -397,10 +397,11 @@ onUnmounted(() => {
 
                 <!-- Mobile Menu Button -->
                 <button
-                    @click="toggleMobileMenu"
+                    type="button"
+                    @click.stop="toggleMobileMenu"
                     :aria-expanded="isMobileMenuOpen"
                     :aria-controls="isMobileMenuOpen ? 'mobile-menu' : undefined"
-                    class="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] lg:hidden sm:h-11 sm:w-11"
+                    class="relative z-[70] flex h-10 w-10 flex-col items-center justify-center gap-1.5 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] lg:hidden sm:h-11 sm:w-11"
                     aria-label="Toggle mobile menu"
                 >
                     <span
@@ -436,7 +437,7 @@ onUnmounted(() => {
                 <div
                     v-if="isMobileMenuOpen"
                     id="mobile-menu"
-                    class="fixed inset-0 top-0 z-40 flex flex-col bg-[#0a0a0f] backdrop-blur-xl lg:hidden"
+                    class="fixed inset-0 top-0 z-[60] flex flex-col bg-[#0a0a0f] backdrop-blur-xl lg:hidden"
                     @click.self="closeMobileMenu"
                     role="dialog"
                     aria-modal="true"
@@ -444,7 +445,7 @@ onUnmounted(() => {
                     style="min-height: 100vh; min-height: 100dvh;"
                 >
                     <!-- Background Pattern -->
-                    <div class="absolute inset-0 opacity-5">
+                    <div class="absolute inset-0 opacity-5 pointer-events-none">
                         <svg class="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                             <defs>
                                 <pattern id="mobileMenuPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
@@ -461,15 +462,15 @@ onUnmounted(() => {
                     </div>
 
                     <!-- Scrollable Content Container -->
-                    <div class="relative z-10 flex flex-1 flex-col overflow-y-auto overscroll-contain">
+                    <div class="relative z-20 flex flex-1 flex-col overflow-y-auto overscroll-contain">
                         <!-- Menu Items Container -->
-                        <div class="flex min-h-full flex-col items-center justify-center gap-3 px-4 py-6 sm:gap-4 sm:px-6 sm:py-8 md:gap-5 md:py-10">
+                        <div class="flex min-h-full flex-col items-center justify-center gap-4 px-4 py-8 sm:gap-5 sm:px-6 sm:py-12 md:gap-6 md:py-16">
                             <!-- Navigation Links -->
                             <a
                                 href="/collection"
                                 @click.prevent="scrollToSection('collection')"
                                 aria-label="View our diamond collection"
-                                class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-cyan-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
+                                class="mobile-menu-link w-full max-w-[320px] min-h-[48px] flex items-center justify-center text-center font-serif text-lg font-medium tracking-wider text-white transition-all duration-300 hover:text-cyan-400 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
                             >
                                 COLLECTION
                             </a>
@@ -477,7 +478,7 @@ onUnmounted(() => {
                                 href="/craftsmanship"
                                 @click.prevent="scrollToSection('features')"
                                 aria-label="Learn about our craftsmanship"
-                                class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-purple-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
+                                class="mobile-menu-link w-full max-w-[320px] min-h-[48px] flex items-center justify-center text-center font-serif text-lg font-medium tracking-wider text-white transition-all duration-300 hover:text-purple-400 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
                             >
                                 CRAFTSMANSHIP
                             </a>
@@ -485,7 +486,7 @@ onUnmounted(() => {
                                 href="/testimonials"
                                 @click.prevent="scrollToSection('testimonials')"
                                 aria-label="Read customer testimonials"
-                                class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-pink-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
+                                class="mobile-menu-link w-full max-w-[320px] min-h-[48px] flex items-center justify-center text-center font-serif text-lg font-medium tracking-wider text-white transition-all duration-300 hover:text-pink-400 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
                             >
                                 TESTIMONIALS
                             </a>
@@ -493,17 +494,18 @@ onUnmounted(() => {
                                 href="/contact"
                                 @click.prevent="scrollToSection('contact')"
                                 aria-label="Contact us"
-                                class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-cyan-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
+                                class="mobile-menu-link w-full max-w-[320px] min-h-[48px] flex items-center justify-center text-center font-serif text-lg font-medium tracking-wider text-white transition-all duration-300 hover:text-cyan-400 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
                             >
                                 CONTACT
                             </a>
 
                             <!-- Sign In Button -->
-                            <div class="mt-2 flex w-full max-w-[280px] flex-col items-center gap-3 sm:mt-4 sm:max-w-sm md:mt-6 md:max-w-md">
+                            <div class="mt-4 flex w-full max-w-[320px] flex-col items-center gap-3 sm:mt-6 sm:max-w-sm md:mt-8 md:max-w-md">
                                 <button 
-                                    @click="signIn" 
+                                    type="button"
+                                    @click.prevent="signIn" 
                                     aria-label="Sign in to your account"
-                                    class="w-full min-h-[44px] rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-xs tracking-wider text-white transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-500/10 hover:text-purple-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:px-6 sm:py-3 sm:text-sm md:px-8 md:py-3.5 md:text-base"
+                                    class="w-full min-h-[48px] rounded-full border-2 border-white/30 bg-white/10 px-6 py-3 text-sm font-medium tracking-wider text-white transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-500/20 hover:text-purple-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:px-8 sm:py-3.5 sm:text-base md:px-10 md:py-4 md:text-lg"
                                 >
                                     SIGN IN
                                 </button>
@@ -512,9 +514,9 @@ onUnmounted(() => {
                     </div>
 
                     <!-- Mobile Menu Footer -->
-                    <div class="relative z-10 shrink-0 border-t border-white/10 bg-[#0a0a0a]/90 p-3 text-center backdrop-blur-sm sm:p-4 md:p-6">
-                        <p class="text-[10px] tracking-wider text-gray-400 sm:text-xs md:text-sm">FIFTH AVENUE, NEW YORK</p>
-                        <p class="mt-1 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-xs text-transparent sm:text-sm md:text-base">+1 (212) 555-0123</p>
+                    <div class="relative z-20 shrink-0 border-t border-white/10 bg-[#0a0a0a]/90 p-4 text-center backdrop-blur-sm sm:p-6 md:p-8">
+                        <p class="text-xs tracking-wider text-gray-400 sm:text-sm md:text-base">FIFTH AVENUE, NEW YORK</p>
+                        <p class="mt-2 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-sm font-medium text-transparent sm:text-base md:text-lg">+1 (212) 555-0123</p>
                     </div>
                 </div>
             </Transition>

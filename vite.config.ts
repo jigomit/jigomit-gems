@@ -25,6 +25,7 @@ export default defineConfig({
     },
     root: '.',
     publicDir: 'public',
+    assetsInclude: ['**/*.mp4', '**/*.webm', '**/*.ogg', '**/*.mov', '**/*.m4v'],
     build: {
         outDir: 'dist',
         emptyOutDir: true,
@@ -61,6 +62,9 @@ export default defineConfig({
                     }
                     if (/woff2?|eot|ttf|otf/i.test(ext)) {
                         return `assets/fonts/[name]-[hash][extname]`;
+                    }
+                    if (/mp4|webm|ogg|mov|m4v/i.test(ext)) {
+                        return `assets/media/[name]-[hash][extname]`;
                     }
                     return `assets/[ext]/[name]-[hash][extname]`;
                 },

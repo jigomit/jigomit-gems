@@ -243,7 +243,7 @@ onUnmounted(() => {
                             <div class="relative">
                                 <video
                                     ref="videoRef"
-                                    :src="shouldLoadVideo ? '/gems_360.mp4' : undefined"
+                                    :src="shouldLoadVideo ? '/gems_360.mp4' : null"
                                     autoplay
                                     loop
                                     muted
