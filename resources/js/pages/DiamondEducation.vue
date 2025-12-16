@@ -116,6 +116,10 @@ onMounted(() => {
                                 alt="Brilliant round cut diamond showcasing exceptional clarity and brilliance"
                                 class="h-auto w-full max-w-md object-contain"
                                 loading="lazy"
+                                width="400"
+                                height="400"
+                                decoding="async"
+                                fetchpriority="low"
                             />
                         </div>
                     </div>

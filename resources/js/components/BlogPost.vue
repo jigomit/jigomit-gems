@@ -122,7 +122,16 @@ onMounted(() => {
 
             <!-- Featured Image -->
             <div v-if="image" class="mb-8 overflow-hidden rounded-2xl sm:mb-12">
-                <img :src="image" :alt="`${title} - Expert diamond education guide and buying tips for luxury engagement rings`" class="h-auto w-full object-cover" loading="lazy" />
+                <img 
+                    :src="image" 
+                    :alt="`${title} - Expert diamond education guide and buying tips for luxury engagement rings`" 
+                    class="h-auto w-full object-cover" 
+                    loading="lazy"
+                    width="800"
+                    height="450"
+                    decoding="async"
+                    fetchpriority="high"
+                />
             </div>
 
             <!-- Content -->

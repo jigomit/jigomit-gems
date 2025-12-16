@@ -181,6 +181,7 @@ onUnmounted(() => {
                                 width="280"
                                 height="280"
                                 decoding="async"
+                                fetchpriority="low"
                             />
                         </div>
                         

@@ -15,6 +15,9 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
+    css: {
+        devSourcemap: false,
+    },
     resolve: {
         alias: {
             '@': resolve(__dirname, './resources/js'),
@@ -28,7 +31,7 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 manualChunks(id) {
-                    // Split vendor chunks
+                    // Split vendor chunks more aggressively
                     if (id.includes('node_modules')) {
                         if (id.includes('vue')) {
                             return 'vue-vendor';
@@ -47,18 +50,30 @@ export default defineConfig({
                         return 'pages';
                     }
                 },
+                // Optimize chunk names
+                chunkFileNames: 'assets/js/[name]-[hash].js',
+                entryFileNames: 'assets/js/[name]-[hash].js',
+                assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
             },
         },
-        chunkSizeWarningLimit: 500,
+        chunkSizeWarningLimit: 400,
         minify: 'terser',
         terserOptions: {
             compress: {
                 drop_console: true,
                 drop_debugger: true,
-                pure_funcs: ['console.log', 'console.info', 'console.debug'],
+                pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
+                passes: 2,
+            },
+            mangle: {
+                safari10: true,
             },
         },
         sourcemap: false,
+        cssCodeSplit: true,
+        cssMinify: true,
+        reportCompressedSize: false,
+        target: 'esnext',
     },
     server: {
         port: 5173,
@@ -70,5 +85,6 @@ export default defineConfig({
     },
     optimizeDeps: {
         include: ['vue', 'vue-router'],
+        exclude: [],
     },
 });

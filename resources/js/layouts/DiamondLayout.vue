@@ -377,12 +377,12 @@ onUnmounted(() => {
                 </RouterLink>
 
                 <!-- Desktop Navigation -->
-                <div class="hidden items-center gap-6 lg:flex lg:gap-10" role="menubar">
-                    <a @click.prevent="scrollToSection('collection')" href="/collection" role="menuitem" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:rounded">COLLECTION</a>
-                    <a @click.prevent="scrollToSection('features')" href="/craftsmanship" role="menuitem" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:rounded">CRAFTSMANSHIP</a>
-                    <a @click.prevent="scrollToSection('testimonials')" href="/testimonials" role="menuitem" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:rounded">TESTIMONIALS</a>
-                    <a @click.prevent="scrollToSection('contact')" href="/contact" role="menuitem" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:rounded">CONTACT</a>
-                </div>
+                <nav class="hidden items-center gap-6 lg:flex lg:gap-10" role="menubar" aria-label="Main navigation">
+                    <a @click.prevent="scrollToSection('collection')" href="/collection" role="menuitem" aria-label="View our diamond collection" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:rounded">COLLECTION</a>
+                    <a @click.prevent="scrollToSection('features')" href="/craftsmanship" role="menuitem" aria-label="Learn about our craftsmanship" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:rounded">CRAFTSMANSHIP</a>
+                    <a @click.prevent="scrollToSection('testimonials')" href="/testimonials" role="menuitem" aria-label="Read customer testimonials" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:rounded">TESTIMONIALS</a>
+                    <a @click.prevent="scrollToSection('contact')" href="/contact" role="menuitem" aria-label="Contact us" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:rounded">CONTACT</a>
+                </nav>
 
                 <!-- Desktop CTA -->
                 <div class="hidden items-center gap-4 lg:flex lg:gap-6">
@@ -468,28 +468,32 @@ onUnmounted(() => {
                             <a
                                 href="/collection"
                                 @click.prevent="scrollToSection('collection')"
-                                class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-cyan-400 active:scale-95 sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
+                                aria-label="View our diamond collection"
+                                class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-cyan-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
                             >
                                 COLLECTION
                             </a>
                             <a
                                 href="/craftsmanship"
                                 @click.prevent="scrollToSection('features')"
-                                class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-purple-400 active:scale-95 sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
+                                aria-label="Learn about our craftsmanship"
+                                class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-purple-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
                             >
                                 CRAFTSMANSHIP
                             </a>
                             <a
                                 href="/testimonials"
                                 @click.prevent="scrollToSection('testimonials')"
-                                class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-pink-400 active:scale-95 sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
+                                aria-label="Read customer testimonials"
+                                class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-pink-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
                             >
                                 TESTIMONIALS
                             </a>
                             <a
                                 href="/contact"
                                 @click.prevent="scrollToSection('contact')"
-                                class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-cyan-400 active:scale-95 sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
+                                aria-label="Contact us"
+                                class="mobile-menu-link w-full max-w-[280px] min-h-[44px] flex items-center justify-center text-center font-serif text-base tracking-wider text-white transition-all duration-300 hover:text-cyan-400 active:scale-95 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:max-w-sm sm:text-xl md:max-w-md md:text-2xl"
                             >
                                 CONTACT
                             </a>
@@ -498,7 +502,8 @@ onUnmounted(() => {
                             <div class="mt-2 flex w-full max-w-[280px] flex-col items-center gap-3 sm:mt-4 sm:max-w-sm md:mt-6 md:max-w-md">
                                 <button 
                                     @click="signIn" 
-                                    class="w-full min-h-[44px] rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-xs tracking-wider text-white transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-500/10 hover:text-purple-300 active:scale-95 sm:px-6 sm:py-3 sm:text-sm md:px-8 md:py-3.5 md:text-base"
+                                    aria-label="Sign in to your account"
+                                    class="w-full min-h-[44px] rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-xs tracking-wider text-white transition-all duration-300 hover:border-purple-500/50 hover:bg-purple-500/10 hover:text-purple-300 active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:px-6 sm:py-3 sm:text-sm md:px-8 md:py-3.5 md:text-base"
                                 >
                                     SIGN IN
                                 </button>
@@ -527,8 +532,8 @@ onUnmounted(() => {
                 <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
                     <!-- Brand -->
                     <div class="sm:col-span-2 lg:col-span-1">
-                        <RouterLink to="/" class="group mb-4 flex items-center gap-2 transition-opacity hover:opacity-80 sm:mb-6">
-                            <svg class="h-8 w-8 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 40 40" fill="none">
+                        <RouterLink to="/" aria-label="GEMS Home" class="group mb-4 flex items-center gap-2 transition-opacity hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded sm:mb-6">
+                            <svg class="h-8 w-8 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 40 40" fill="none" aria-hidden="true">
                                 <defs>
                                     <linearGradient id="footerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                                         <stop offset="0%" style="stop-color:#06b6d4" />
@@ -545,17 +550,17 @@ onUnmounted(() => {
                             Crafting timeless brilliance since 1889. Each diamond tells a story of excellence.
                         </p>
                         <div class="flex gap-4">
-                            <a @click.prevent="openSocialMedia('Twitter')" href="https://twitter.com/gems" target="_blank" rel="noopener noreferrer" class="cursor-pointer text-gray-500 transition-colors hover:text-cyan-400" aria-label="Follow us on Twitter">
-                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" /></svg>
+                            <a @click.prevent="openSocialMedia('Twitter')" href="https://twitter.com/gems" target="_blank" rel="noopener noreferrer" class="cursor-pointer text-gray-500 transition-colors hover:text-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded" aria-label="Follow us on Twitter">
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" /></svg>
                             </a>
-                            <a @click.prevent="openSocialMedia('Instagram')" href="https://instagram.com/gems" target="_blank" rel="noopener noreferrer" class="cursor-pointer text-gray-500 transition-colors hover:text-purple-400" aria-label="Follow us on Instagram">
-                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg>
+                            <a @click.prevent="openSocialMedia('Instagram')" href="https://instagram.com/gems" target="_blank" rel="noopener noreferrer" class="cursor-pointer text-gray-500 transition-colors hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded" aria-label="Follow us on Instagram">
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg>
                             </a>
-                            <a @click.prevent="openSocialMedia('YouTube')" href="https://youtube.com/@gems" target="_blank" rel="noopener noreferrer" class="cursor-pointer text-gray-500 transition-colors hover:text-pink-400" aria-label="Subscribe to our YouTube channel">
-                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" /></svg>
+                            <a @click.prevent="openSocialMedia('YouTube')" href="https://youtube.com/@gems" target="_blank" rel="noopener noreferrer" class="cursor-pointer text-gray-500 transition-colors hover:text-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded" aria-label="Subscribe to our YouTube channel">
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" /></svg>
                             </a>
-                            <a @click.prevent="openSocialMedia('Pinterest')" href="https://pinterest.com/gems" target="_blank" rel="noopener noreferrer" class="cursor-pointer text-gray-500 transition-colors hover:text-cyan-400" aria-label="Follow us on Pinterest">
-                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z" /></svg>
+                            <a @click.prevent="openSocialMedia('Pinterest')" href="https://pinterest.com/gems" target="_blank" rel="noopener noreferrer" class="cursor-pointer text-gray-500 transition-colors hover:text-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded" aria-label="Follow us on Pinterest">
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z" /></svg>
                             </a>
                         </div>
                     </div>
@@ -564,10 +569,10 @@ onUnmounted(() => {
                     <div>
                         <h4 class="mb-4 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-xs tracking-[0.2em] text-transparent sm:mb-6">COLLECTIONS</h4>
                         <ul class="space-y-2 text-sm text-gray-500 sm:space-y-3">
-                            <li><a @click.prevent="viewCollection('Round Cut')" href="/collection" class="cursor-pointer transition-colors hover:text-white">Round Cut</a></li>
-                            <li><a @click.prevent="viewCollection('Pear Cut')" href="/collection" class="cursor-pointer transition-colors hover:text-white">Pear Cut</a></li>
-                            <li><a @click.prevent="viewCollection('Oval Cut')" href="/collection" class="cursor-pointer transition-colors hover:text-white">Oval Cut</a></li>
-                            <li><a @click.prevent="viewCollection('Emerald Cut')" href="/collection" class="cursor-pointer transition-colors hover:text-white">Emerald Cut</a></li>
+                            <li><a @click.prevent="viewCollection('Round Cut')" href="/collection" aria-label="View Round Cut diamond collection" class="cursor-pointer transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">Round Cut</a></li>
+                            <li><a @click.prevent="viewCollection('Pear Cut')" href="/collection" aria-label="View Pear Cut diamond collection" class="cursor-pointer transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">Pear Cut</a></li>
+                            <li><a @click.prevent="viewCollection('Oval Cut')" href="/collection" aria-label="View Oval Cut diamond collection" class="cursor-pointer transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">Oval Cut</a></li>
+                            <li><a @click.prevent="viewCollection('Emerald Cut')" href="/collection" aria-label="View Emerald Cut diamond collection" class="cursor-pointer transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">Emerald Cut</a></li>
                         </ul>
                     </div>
 
@@ -575,11 +580,11 @@ onUnmounted(() => {
                     <div>
                         <h4 class="mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-xs tracking-[0.2em] text-transparent sm:mb-6">SERVICES</h4>
                         <ul class="space-y-2 text-sm text-gray-500 sm:space-y-3">
-                            <li><a @click.prevent="viewService('Private Consultations')" href="/contact" class="cursor-pointer transition-colors hover:text-white">Private Consultations</a></li>
-                            <li><a @click.prevent="viewService('Diamond Education')" href="/blog" class="cursor-pointer transition-colors hover:text-white">Diamond Education</a></li>
-                            <li><a @click.prevent="viewService('Cleaning & Care')" href="/contact" class="cursor-pointer transition-colors hover:text-white">Cleaning & Care</a></li>
-                            <li><a @click.prevent="viewService('Insurance Appraisals')" href="/contact" class="cursor-pointer transition-colors hover:text-white">Insurance Appraisals</a></li>
-                            <li><RouterLink to="/blog" class="transition-colors hover:text-white">Blog</RouterLink></li>
+                            <li><a @click.prevent="viewService('Private Consultations')" href="/contact" aria-label="Book a private consultation" class="cursor-pointer transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">Private Consultations</a></li>
+                            <li><a @click.prevent="viewService('Diamond Education')" href="/blog" aria-label="Learn about diamonds" class="cursor-pointer transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">Diamond Education</a></li>
+                            <li><a @click.prevent="viewService('Cleaning & Care')" href="/contact" aria-label="Learn about cleaning and care" class="cursor-pointer transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">Cleaning & Care</a></li>
+                            <li><a @click.prevent="viewService('Insurance Appraisals')" href="/contact" aria-label="Get insurance appraisals" class="cursor-pointer transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">Insurance Appraisals</a></li>
+                            <li><RouterLink to="/blog" aria-label="Read our blog" class="transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">Blog</RouterLink></li>
                         </ul>
                     </div>
 
@@ -587,14 +592,14 @@ onUnmounted(() => {
                     <div>
                         <h4 class="mb-4 bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-xs tracking-[0.2em] text-transparent sm:mb-6">VISIT US</h4>
                         <address class="space-y-2 text-sm not-italic text-gray-500 sm:space-y-3">
-                            <a href="https://www.google.com/maps/search/?api=1&query=725+Fifth+Avenue+New+York+NY+10022" target="_blank" rel="noopener noreferrer" class="block cursor-pointer transition-colors hover:text-white">
+                            <a href="https://www.google.com/maps/search/?api=1&query=725+Fifth+Avenue+New+York+NY+10022" target="_blank" rel="noopener noreferrer" aria-label="View our location on Google Maps" class="block cursor-pointer transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">
                                 <p>725 Fifth Avenue</p>
                                 <p>New York, NY 10022</p>
                             </a>
                             <p class="pt-2">Mon - Sat: 10AM - 7PM</p>
                             <p>Sun: By Appointment</p>
                             <p class="pt-2">
-                                <a href="tel:+12125550123" class="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent hover:from-cyan-300 hover:to-purple-300 transition-colors">+1 (212) 555-0123</a>
+                                <a href="tel:+12125550123" aria-label="Call us at +1 (212) 555-0123" class="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent hover:from-cyan-300 hover:to-purple-300 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">+1 (212) 555-0123</a>
                             </p>
                         </address>
                     </div>
@@ -603,11 +608,11 @@ onUnmounted(() => {
                 <!-- Footer Bottom -->
                 <div class="mt-10 flex flex-col items-center justify-between gap-4 border-t border-white/5 pt-8 sm:mt-12 sm:flex-row">
                     <p class="text-xs text-gray-600">&copy; 2025 GEMS. All rights reserved.</p>
-                    <div class="flex flex-wrap justify-center gap-4 text-xs text-gray-600 sm:gap-6">
-                        <a @click.prevent="viewPolicy('Privacy Policy')" href="/contact" class="cursor-pointer transition-colors hover:text-white">Privacy Policy</a>
-                        <a @click.prevent="viewPolicy('Terms of Service')" href="/contact" class="cursor-pointer transition-colors hover:text-white">Terms of Service</a>
-                        <a @click.prevent="viewPolicy('Cookie Policy')" href="/contact" class="cursor-pointer transition-colors hover:text-white">Cookie Policy</a>
-                    </div>
+                    <nav class="flex flex-wrap justify-center gap-4 text-xs text-gray-600 sm:gap-6" aria-label="Footer legal links">
+                        <a @click.prevent="viewPolicy('Privacy Policy')" href="/contact" aria-label="View privacy policy" class="cursor-pointer transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">Privacy Policy</a>
+                        <a @click.prevent="viewPolicy('Terms of Service')" href="/contact" aria-label="View terms of service" class="cursor-pointer transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">Terms of Service</a>
+                        <a @click.prevent="viewPolicy('Cookie Policy')" href="/contact" aria-label="View cookie policy" class="cursor-pointer transition-colors hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#050508] focus:rounded">Cookie Policy</a>
+                    </nav>
                 </div>
             </div>
         </footer>

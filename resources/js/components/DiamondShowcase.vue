@@ -172,6 +172,7 @@ onUnmounted(() => {
                                         width="360"
                                         height="360"
                                         decoding="async"
+                                        fetchpriority="high"
                                     />
                                 </div>
                             </Transition>
@@ -196,8 +197,8 @@ onUnmounted(() => {
                             v-for="(diamond, index) in diamonds"
                             :key="diamond.name"
                             @click="activeIndex = index"
-                            :aria-label="`View ${diamond.name} diamond`"
-                            :title="`View ${diamond.name} diamond`"
+                            :aria-label="`View ${diamond.name} diamond, ${diamond.carat} carat, position ${index + 1} of ${diamonds.length}`"
+                            :title="`View ${diamond.name} diamond, ${diamond.carat} carat`"
                             :aria-selected="activeIndex === index"
                             role="tab"
                             :class="[
@@ -205,7 +206,7 @@ onUnmounted(() => {
                                 activeIndex === index ? 'bg-cyan-400 ring-2 ring-cyan-400 ring-offset-2 ring-offset-[#0a0a0f]' : 'bg-white/30 hover:bg-white/50'
                             ]"
                         >
-                            <span class="sr-only">View {{ diamond.name }} diamond</span>
+                            <span class="sr-only">View {{ diamond.name }} diamond, {{ diamond.carat }} carat, position {{ index + 1 }} of {{ diamonds.length }}</span>
                         </button>
                     </div>
                 </div>
@@ -288,18 +289,19 @@ onUnmounted(() => {
                             v-for="(_, index) in diamonds"
                             :key="index"
                             @click="activeIndex = index"
-                            :aria-label="`Select ${diamonds[index].name} diamond`"
-                            :title="`Select ${diamonds[index].name} diamond`"
+                            :aria-label="`Select ${diamonds[index].name} diamond, position ${index + 1} of ${diamonds.length}`"
+                            :title="`Select ${diamonds[index].name} diamond, position ${index + 1} of ${diamonds.length}`"
                             :aria-selected="activeIndex === index"
                             role="tab"
                             class="group relative h-1 flex-1 overflow-hidden rounded-full bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f]"
                         >
-                            <span class="sr-only">Select {{ diamonds[index].name }} diamond</span>
+                            <span class="sr-only">Select {{ diamonds[index].name }} diamond, position {{ index + 1 }} of {{ diamonds.length }}</span>
                             <div
                                 :class="[
                                     'h-full rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 transition-all duration-300',
                                     activeIndex === index ? 'w-full' : 'w-0 group-hover:w-1/3'
                                 ]"
+                                aria-hidden="true"
                             ></div>
                         </button>
                     </div>

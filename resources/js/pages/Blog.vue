@@ -148,6 +148,10 @@ onMounted(() => {
                                     :alt="`${post.title} - ${post.category} diamond education article with expert buying tips and guides`"
                                     class="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
                                     loading="lazy"
+                                    width="400"
+                                    height="300"
+                                    decoding="async"
+                                    fetchpriority="low"
                                 />
                                 <div class="absolute bottom-4 left-4">
                                     <span class="rounded-full bg-cyan-500/20 px-3 py-1 text-xs font-medium text-cyan-300 backdrop-blur-sm">

@@ -169,9 +169,11 @@ onUnmounted(() => {
                 <div class="mt-10 flex items-center justify-center gap-4 sm:mt-12" role="group" aria-label="Testimonials navigation">
                     <button
                         @click="prevSlide"
-                        aria-label="Previous testimonial"
+                        :aria-label="`Previous testimonial, go to testimonial ${activeIndex === 0 ? testimonials.length : activeIndex} of ${testimonials.length}`"
+                        :title="`Previous testimonial, go to testimonial ${activeIndex === 0 ? testimonials.length : activeIndex} of ${testimonials.length}`"
                         class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white transition-all duration-300 hover:border-purple-500 hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:h-12 sm:w-12"
                     >
+                        <span class="sr-only">Previous testimonial, go to testimonial {{ activeIndex === 0 ? testimonials.length : activeIndex }} of {{ testimonials.length }}</span>
                         <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
@@ -180,11 +182,11 @@ onUnmounted(() => {
                     <!-- Dots -->
                     <div class="flex gap-2" role="tablist" aria-label="Testimonial selection">
                         <button
-                            v-for="(_, index) in testimonials"
+                            v-for="(testimonial, index) in testimonials"
                             :key="index"
                             @click="activeIndex = index"
-                            :aria-label="`View testimonial ${index + 1} from ${testimonials[index].name}`"
-                            :title="`View testimonial ${index + 1} from ${testimonials[index].name}`"
+                            :aria-label="`View testimonial ${index + 1} of ${testimonials.length} from ${testimonial.name}`"
+                            :title="`View testimonial ${index + 1} of ${testimonials.length} from ${testimonial.name}`"
                             :aria-selected="activeIndex === index"
                             role="tab"
                             :class="[
@@ -192,15 +194,17 @@ onUnmounted(() => {
                                 activeIndex === index ? 'w-6 bg-gradient-to-r from-cyan-400 to-purple-400 sm:w-8' : 'w-2 bg-white/20 hover:bg-white/40'
                             ]"
                         >
-                            <span class="sr-only">View testimonial {{ index + 1 }} from {{ testimonials[index].name }}</span>
+                            <span class="sr-only">View testimonial {{ index + 1 }} of {{ testimonials.length }} from {{ testimonial.name }}</span>
                         </button>
                     </div>
 
                     <button
                         @click="nextSlide"
-                        aria-label="Next testimonial"
+                        :aria-label="`Next testimonial, go to testimonial ${(activeIndex + 1) % testimonials.length + 1} of ${testimonials.length}`"
+                        :title="`Next testimonial, go to testimonial ${(activeIndex + 1) % testimonials.length + 1} of ${testimonials.length}`"
                         class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white transition-all duration-300 hover:border-purple-500 hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:h-12 sm:w-12"
                     >
+                        <span class="sr-only">Next testimonial, go to testimonial {{ (activeIndex + 1) % testimonials.length + 1 }} of {{ testimonials.length }}</span>
                         <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
