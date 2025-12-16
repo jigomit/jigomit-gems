@@ -168,11 +168,11 @@ onUnmounted(() => {
                                         :src="diamonds[activeIndex].image" 
                                         :alt="`${diamonds[activeIndex].name} diamond - GIA certified luxury engagement ring diamond, ${diamonds[activeIndex].carat} carat ${diamonds[activeIndex].cut} cut, ${diamonds[activeIndex].color} color ${diamonds[activeIndex].clarity} clarity`" 
                                         class="h-[280px] w-[280px] object-contain opacity-90 sm:h-[360px] sm:w-[360px]"
-                                        loading="lazy"
+                                        :loading="activeIndex === 0 ? 'eager' : 'lazy'"
                                         width="360"
                                         height="360"
                                         decoding="async"
-                                        fetchpriority="high"
+                                        :fetchpriority="activeIndex === 0 ? 'high' : 'low'"
                                     />
                                 </div>
                             </Transition>
@@ -200,7 +200,10 @@ onUnmounted(() => {
                             :aria-label="`View ${diamond.name} diamond, ${diamond.carat} carat, position ${index + 1} of ${diamonds.length}`"
                             :title="`View ${diamond.name} diamond, ${diamond.carat} carat`"
                             :aria-selected="activeIndex === index"
+                            :aria-controls="`diamond-panel-${index}`"
                             role="tab"
+                            :id="`diamond-tab-${index}`"
+                            type="button"
                             :class="[
                                 'h-3 w-3 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:h-4 sm:w-4',
                                 activeIndex === index ? 'bg-cyan-400 ring-2 ring-cyan-400 ring-offset-2 ring-offset-[#0a0a0f]' : 'bg-white/30 hover:bg-white/50'
@@ -292,7 +295,10 @@ onUnmounted(() => {
                             :aria-label="`Select ${diamonds[index].name} diamond, position ${index + 1} of ${diamonds.length}`"
                             :title="`Select ${diamonds[index].name} diamond, position ${index + 1} of ${diamonds.length}`"
                             :aria-selected="activeIndex === index"
+                            :aria-controls="`diamond-panel-${index}`"
                             role="tab"
+                            :id="`diamond-progress-tab-${index}`"
+                            type="button"
                             class="group relative h-1 flex-1 overflow-hidden rounded-full bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f]"
                         >
                             <span class="sr-only">Select {{ diamonds[index].name }} diamond, position {{ index + 1 }} of {{ diamonds.length }}</span>

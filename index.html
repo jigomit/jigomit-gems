@@ -38,7 +38,6 @@
         <!-- Resource Hints for Performance -->
         <link rel="preconnect" href="https://fonts.bunny.net" crossorigin />
         <link rel="dns-prefetch" href="https://fonts.bunny.net" />
-        <link rel="dns-prefetch" href="https://fonts.bunny.net" />
         
         <!-- Fonts - Load asynchronously to prevent render blocking -->
         <link rel="preload" href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600&display=swap" as="style" />
@@ -48,6 +47,9 @@
         <!-- Preload critical resources -->
         <link rel="modulepreload" href="./resources/js/main.ts" />
         
+        <!-- Preload critical images for LCP -->
+        <link rel="preload" as="image" href="/round_cut-removebg-preview.png" fetchpriority="high" />
+        
         <!-- Critical CSS to prevent FOUC and improve LCP -->
         <style>
             html{scroll-behavior:smooth;font-family:system-ui,-apple-system,sans-serif}
@@ -55,11 +57,13 @@
             #app{min-height:100vh;display:block;contain:layout style paint}
             *{box-sizing:border-box}
             /* Prevent layout shift during load */
-            img,video{max-width:100%;height:auto;content-visibility:auto}
+            img,video{max-width:100%;height:auto;content-visibility:auto;display:block}
             /* Optimize rendering */
             [data-v-inert]{content-visibility:auto}
             /* Improve font loading */
             @font-face{font-family:system-ui;font-style:normal;font-weight:400;font-display:swap}
+            /* Prevent FOUC */
+            body:not(.loaded){visibility:hidden}
         </style>
         
         <!-- Manifest -->

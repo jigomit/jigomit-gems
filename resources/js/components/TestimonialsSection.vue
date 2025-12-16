@@ -171,6 +171,7 @@ onUnmounted(() => {
                         @click="prevSlide"
                         :aria-label="`Previous testimonial, go to testimonial ${activeIndex === 0 ? testimonials.length : activeIndex} of ${testimonials.length}`"
                         :title="`Previous testimonial, go to testimonial ${activeIndex === 0 ? testimonials.length : activeIndex} of ${testimonials.length}`"
+                        type="button"
                         class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white transition-all duration-300 hover:border-purple-500 hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:h-12 sm:w-12"
                     >
                         <span class="sr-only">Previous testimonial, go to testimonial {{ activeIndex === 0 ? testimonials.length : activeIndex }} of {{ testimonials.length }}</span>
@@ -188,7 +189,10 @@ onUnmounted(() => {
                             :aria-label="`View testimonial ${index + 1} of ${testimonials.length} from ${testimonial.name}`"
                             :title="`View testimonial ${index + 1} of ${testimonials.length} from ${testimonial.name}`"
                             :aria-selected="activeIndex === index"
+                            :aria-controls="`testimonial-panel-${index}`"
                             role="tab"
+                            :id="`testimonial-tab-${index}`"
+                            type="button"
                             :class="[
                                 'h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f]',
                                 activeIndex === index ? 'w-6 bg-gradient-to-r from-cyan-400 to-purple-400 sm:w-8' : 'w-2 bg-white/20 hover:bg-white/40'
@@ -202,6 +206,7 @@ onUnmounted(() => {
                         @click="nextSlide"
                         :aria-label="`Next testimonial, go to testimonial ${(activeIndex + 1) % testimonials.length + 1} of ${testimonials.length}`"
                         :title="`Next testimonial, go to testimonial ${(activeIndex + 1) % testimonials.length + 1} of ${testimonials.length}`"
+                        type="button"
                         class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white transition-all duration-300 hover:border-purple-500 hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:h-12 sm:w-12"
                     >
                         <span class="sr-only">Next testimonial, go to testimonial {{ (activeIndex + 1) % testimonials.length + 1 }} of {{ testimonials.length }}</span>

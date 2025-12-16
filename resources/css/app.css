@@ -93,6 +93,9 @@ button:focus-visible {
     white-space: nowrap !important;
     border-width: 0 !important;
     border: 0 !important;
+    /* Ensure text is accessible to screen readers */
+    -webkit-clip-path: inset(50%) !important;
+    clip-path: inset(50%) !important;
 }
 
 .sr-only:focus,

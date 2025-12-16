@@ -45,3 +45,6 @@ app.use(router);
 
 app.mount('#app');
 
+// Mark body as loaded to prevent FOUC
+document.body.classList.add('loaded');
+
