@@ -1,21 +1,27 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '../pages/Home.vue';
-import Welcome from '../pages/Welcome.vue';
-import Blog from '../pages/Blog.vue';
-import DiamondEducation from '../pages/DiamondEducation.vue';
-import InsuranceAppraisals from '../pages/InsuranceAppraisals.vue';
-import CleaningCare from '../pages/CleaningCare.vue';
-import SignIn from '../pages/SignIn.vue';
-import HowToChoosePerfectEngagementRingDiamond from '../pages/blog/HowToChoosePerfectEngagementRingDiamond.vue';
-import BestDiamondCutEngagementRings2025 from '../pages/blog/BestDiamondCutEngagementRings2025.vue';
-import RoundCutVsOvalCutDiamonds from '../pages/blog/RoundCutVsOvalCutDiamonds.vue';
-import HowMuchSpendEngagementRingDiamond from '../pages/blog/HowMuchSpendEngagementRingDiamond.vue';
-import GIACertifiedDiamondsVsNonCertified from '../pages/blog/GIACertifiedDiamondsVsNonCertified.vue';
-import MasterCraftsmanship from '../pages/MasterCraftsmanship.vue';
-import LifetimeGuarantee from '../pages/LifetimeGuarantee.vue';
-import SecureDelivery from '../pages/SecureDelivery.vue';
-import Concierge from '../pages/Concierge.vue';
-import ConflictFree from '../pages/ConflictFree.vue';
+
+// Lazy load components for better code splitting
+const Home = () => import('../pages/Home.vue');
+const Welcome = () => import('../pages/Welcome.vue');
+const Blog = () => import('../pages/Blog.vue');
+const Collection = () => import('../pages/Collection.vue');
+const Craftsmanship = () => import('../pages/Craftsmanship.vue');
+const Testimonials = () => import('../pages/Testimonials.vue');
+const Contact = () => import('../pages/Contact.vue');
+const DiamondEducation = () => import('../pages/DiamondEducation.vue');
+const InsuranceAppraisals = () => import('../pages/InsuranceAppraisals.vue');
+const CleaningCare = () => import('../pages/CleaningCare.vue');
+const SignIn = () => import('../pages/SignIn.vue');
+const HowToChoosePerfectEngagementRingDiamond = () => import('../pages/blog/HowToChoosePerfectEngagementRingDiamond.vue');
+const BestDiamondCutEngagementRings2025 = () => import('../pages/blog/BestDiamondCutEngagementRings2025.vue');
+const RoundCutVsOvalCutDiamonds = () => import('../pages/blog/RoundCutVsOvalCutDiamonds.vue');
+const HowMuchSpendEngagementRingDiamond = () => import('../pages/blog/HowMuchSpendEngagementRingDiamond.vue');
+const GIACertifiedDiamondsVsNonCertified = () => import('../pages/blog/GIACertifiedDiamondsVsNonCertified.vue');
+const MasterCraftsmanship = () => import('../pages/MasterCraftsmanship.vue');
+const LifetimeGuarantee = () => import('../pages/LifetimeGuarantee.vue');
+const SecureDelivery = () => import('../pages/SecureDelivery.vue');
+const Concierge = () => import('../pages/Concierge.vue');
+const ConflictFree = () => import('../pages/ConflictFree.vue');
 
 const routes = [
     {
@@ -27,25 +33,25 @@ const routes = [
     {
         path: '/collection',
         name: 'Collection',
-        component: Home,
+        component: Collection,
         meta: { title: 'GEMS - COLLECTION' },
     },
     {
         path: '/craftsmanship',
         name: 'Craftsmanship',
-        component: Home,
+        component: Craftsmanship,
         meta: { title: 'GEMS - CRAFTSMANSHIP' },
     },
     {
         path: '/testimonials',
         name: 'Testimonials',
-        component: Home,
+        component: Testimonials,
         meta: { title: 'GEMS - TESTIMONIALS' },
     },
     {
         path: '/contact',
         name: 'Contact',
-        component: Home,
+        component: Contact,
         meta: { title: 'GEMS - CONTACT' },
     },
     {

@@ -130,13 +130,21 @@ onUnmounted(() => {
                             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
                         ]"
                     >
-                        <button @click="bookConsultation" class="group relative w-full overflow-hidden rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 px-8 py-4 text-sm font-medium tracking-[0.15em] text-white transition-all duration-500 hover:shadow-lg hover:shadow-purple-500/25 sm:w-auto sm:px-12">
+                        <button 
+                            @click="bookConsultation" 
+                            aria-label="Book a private consultation"
+                            class="group relative w-full overflow-hidden rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 px-8 py-4 text-sm font-medium tracking-[0.15em] text-white transition-all duration-500 hover:shadow-lg hover:shadow-purple-500/25 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:w-auto sm:px-12"
+                        >
                             <span class="relative z-10">BOOK CONSULTATION</span>
                             <div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full"></div>
                         </button>
-                        <button @click="callUs" class="group w-full rounded-full border border-white/20 bg-transparent px-8 py-4 text-sm font-medium tracking-[0.15em] text-white transition-all duration-500 hover:border-purple-500/50 hover:text-purple-300 sm:w-auto sm:px-12">
+                        <button 
+                            @click="callUs" 
+                            aria-label="Call us at +1-212-555-0123"
+                            class="group w-full rounded-full border border-white/20 bg-transparent px-8 py-4 text-sm font-medium tracking-[0.15em] text-white transition-all duration-500 hover:border-purple-500/50 hover:text-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:w-auto sm:px-12"
+                        >
                             <span class="flex items-center justify-center gap-3">
-                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                 </svg>
                                 CALL US

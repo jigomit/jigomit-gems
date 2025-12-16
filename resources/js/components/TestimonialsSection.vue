@@ -166,34 +166,42 @@ onUnmounted(() => {
                 </div>
 
                 <!-- Navigation -->
-                <div class="mt-10 flex items-center justify-center gap-4 sm:mt-12">
+                <div class="mt-10 flex items-center justify-center gap-4 sm:mt-12" role="group" aria-label="Testimonials navigation">
                     <button
                         @click="prevSlide"
-                        class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white transition-all duration-300 hover:border-purple-500 hover:text-purple-400 sm:h-12 sm:w-12"
+                        aria-label="Previous testimonial"
+                        class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white transition-all duration-300 hover:border-purple-500 hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:h-12 sm:w-12"
                     >
-                        <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
 
                     <!-- Dots -->
-                    <div class="flex gap-2">
+                    <div class="flex gap-2" role="tablist" aria-label="Testimonial selection">
                         <button
                             v-for="(_, index) in testimonials"
                             :key="index"
                             @click="activeIndex = index"
+                            :aria-label="`View testimonial ${index + 1} from ${testimonials[index].name}`"
+                            :title="`View testimonial ${index + 1} from ${testimonials[index].name}`"
+                            :aria-selected="activeIndex === index"
+                            role="tab"
                             :class="[
-                                'h-2 rounded-full transition-all duration-300',
+                                'h-2 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f]',
                                 activeIndex === index ? 'w-6 bg-gradient-to-r from-cyan-400 to-purple-400 sm:w-8' : 'w-2 bg-white/20 hover:bg-white/40'
                             ]"
-                        ></button>
+                        >
+                            <span class="sr-only">View testimonial {{ index + 1 }} from {{ testimonials[index].name }}</span>
+                        </button>
                     </div>
 
                     <button
                         @click="nextSlide"
-                        class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white transition-all duration-300 hover:border-purple-500 hover:text-purple-400 sm:h-12 sm:w-12"
+                        aria-label="Next testimonial"
+                        class="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white transition-all duration-300 hover:border-purple-500 hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:h-12 sm:w-12"
                     >
-                        <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </button>

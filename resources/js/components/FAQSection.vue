@@ -124,7 +124,10 @@ onUnmounted(() => {
                 >
                     <button
                         @click="toggleFAQ(index)"
-                        class="flex w-full items-center justify-between p-6 text-left transition-colors hover:text-cyan-300 sm:p-8"
+                        :aria-expanded="openIndex === index"
+                        :aria-controls="`faq-answer-${index}`"
+                        :aria-label="`${openIndex === index ? 'Hide' : 'Show'} answer for: ${faq.question}`"
+                        class="flex w-full items-center justify-between p-6 text-left transition-colors hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:p-8"
                     >
                         <h3 class="pr-8 font-serif text-lg text-white sm:text-xl">
                             {{ faq.question }}
@@ -137,6 +140,7 @@ onUnmounted(() => {
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
+                            aria-hidden="true"
                         >
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
@@ -149,7 +153,7 @@ onUnmounted(() => {
                         leave-from-class="opacity-100 max-h-96"
                         leave-to-class="opacity-0 max-h-0"
                     >
-                        <div v-if="openIndex === index" class="px-6 pb-6 sm:px-8 sm:pb-8">
+                        <div v-if="openIndex === index" :id="`faq-answer-${index}`" class="px-6 pb-6 sm:px-8 sm:pb-8">
                             <p class="text-base leading-relaxed text-gray-400 sm:text-lg">
                                 {{ faq.answer }}
                             </p>

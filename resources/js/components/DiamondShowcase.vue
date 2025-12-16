@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
+const router = useRouter();
+const route = useRoute();
 const sectionRef = ref<HTMLElement | null>(null);
 const isVisible = ref(false);
 const activeIndex = ref(0);
@@ -56,10 +59,13 @@ let observer: IntersectionObserver | null = null;
 let autoPlayInterval: ReturnType<typeof setInterval> | null = null;
 
 const requestViewing = () => {
-    // Scroll to contact section
-    const element = document.getElementById('contact');
-    if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+    if (route.name === 'Home') {
+        const element = document.getElementById('contact');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    } else {
+        router.push({ name: 'Contact' });
     }
 };
 
@@ -163,6 +169,9 @@ onUnmounted(() => {
                                         :alt="`${diamonds[activeIndex].name} diamond - GIA certified luxury engagement ring diamond, ${diamonds[activeIndex].carat} carat ${diamonds[activeIndex].cut} cut, ${diamonds[activeIndex].color} color ${diamonds[activeIndex].clarity} clarity`" 
                                         class="h-[280px] w-[280px] object-contain opacity-90 sm:h-[360px] sm:w-[360px]"
                                         loading="lazy"
+                                        width="360"
+                                        height="360"
+                                        decoding="async"
                                     />
                                 </div>
                             </Transition>
@@ -182,16 +191,22 @@ onUnmounted(() => {
                     </div>
 
                     <!-- Navigation Dots -->
-                    <div class="mt-4 flex justify-center gap-3 sm:mt-6 sm:gap-4">
+                    <div class="mt-4 flex justify-center gap-3 sm:mt-6 sm:gap-4" role="tablist" aria-label="Diamond selection">
                         <button
                             v-for="(diamond, index) in diamonds"
                             :key="diamond.name"
                             @click="activeIndex = index"
+                            :aria-label="`View ${diamond.name} diamond`"
+                            :title="`View ${diamond.name} diamond`"
+                            :aria-selected="activeIndex === index"
+                            role="tab"
                             :class="[
-                                'h-3 w-3 rounded-full transition-all duration-300 sm:h-4 sm:w-4',
+                                'h-3 w-3 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:h-4 sm:w-4',
                                 activeIndex === index ? 'bg-cyan-400 ring-2 ring-cyan-400 ring-offset-2 ring-offset-[#0a0a0f]' : 'bg-white/30 hover:bg-white/50'
                             ]"
-                        />
+                        >
+                            <span class="sr-only">View {{ diamond.name }} diamond</span>
+                        </button>
                     </div>
                 </div>
 
@@ -250,10 +265,14 @@ onUnmounted(() => {
                                         {{ diamonds[activeIndex].price }}
                                     </p>
                                 </div>
-                                <button @click="requestViewing" class="group relative flex items-center justify-center gap-2.5 overflow-hidden rounded-lg bg-gradient-to-r from-cyan-500 via-purple-600 to-pink-500 px-7 py-3.5 text-sm font-bold tracking-wider text-white shadow-lg shadow-purple-500/40 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-purple-500/50 active:scale-[0.98] sm:px-9 sm:py-4">
+                                <button 
+                                    @click="requestViewing" 
+                                    aria-label="Request viewing for this diamond"
+                                    class="group relative flex items-center justify-center gap-2.5 overflow-hidden rounded-lg bg-gradient-to-r from-cyan-500 via-purple-600 to-pink-500 px-7 py-3.5 text-sm font-bold tracking-wider text-white shadow-lg shadow-purple-500/40 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-purple-500/50 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:px-9 sm:py-4"
+                                >
                                     <span class="relative z-10 flex items-center gap-2.5">
                                         REQUEST VIEWING
-                                        <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                                        <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                                         </svg>
                                     </span>
@@ -264,13 +283,18 @@ onUnmounted(() => {
                     </Transition>
 
                     <!-- Progress Indicators -->
-                    <div class="mt-8 flex gap-2 sm:mt-10">
+                    <div class="mt-8 flex gap-2 sm:mt-10" role="tablist" aria-label="Diamond progress indicators">
                         <button
                             v-for="(_, index) in diamonds"
                             :key="index"
                             @click="activeIndex = index"
-                            class="group relative h-1 flex-1 overflow-hidden rounded-full bg-white/10"
+                            :aria-label="`Select ${diamonds[index].name} diamond`"
+                            :title="`Select ${diamonds[index].name} diamond`"
+                            :aria-selected="activeIndex === index"
+                            role="tab"
+                            class="group relative h-1 flex-1 overflow-hidden rounded-full bg-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f]"
                         >
+                            <span class="sr-only">Select {{ diamonds[index].name }} diamond</span>
                             <div
                                 :class="[
                                     'h-full rounded-full bg-gradient-to-r from-cyan-400 to-purple-400 transition-all duration-300',

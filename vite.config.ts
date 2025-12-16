@@ -25,6 +25,40 @@ export default defineConfig({
     build: {
         outDir: 'dist',
         emptyOutDir: true,
+        rollupOptions: {
+            output: {
+                manualChunks(id) {
+                    // Split vendor chunks
+                    if (id.includes('node_modules')) {
+                        if (id.includes('vue')) {
+                            return 'vue-vendor';
+                        }
+                        if (id.includes('vue-router')) {
+                            return 'router-vendor';
+                        }
+                        // Other node_modules
+                        return 'vendor';
+                    }
+                    // Split large components
+                    if (id.includes('components') && id.includes('Diamond')) {
+                        return 'diamond-components';
+                    }
+                    if (id.includes('pages')) {
+                        return 'pages';
+                    }
+                },
+            },
+        },
+        chunkSizeWarningLimit: 500,
+        minify: 'terser',
+        terserOptions: {
+            compress: {
+                drop_console: true,
+                drop_debugger: true,
+                pure_funcs: ['console.log', 'console.info', 'console.debug'],
+            },
+        },
+        sourcemap: false,
     },
     server: {
         port: 5173,

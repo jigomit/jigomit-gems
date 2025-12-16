@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, nextTick } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
+const router = useRouter();
+const route = useRoute();
 const isVisible = ref(false);
 const mouseX = ref(0);
 const mouseY = ref(0);
+const videoRef = ref<HTMLVideoElement | null>(null);
+const shouldLoadVideo = ref(false);
 
 const handleMouseMove = (e: MouseEvent) => {
     mouseX.value = (e.clientX / window.innerWidth - 0.5) * 30;
@@ -11,17 +16,24 @@ const handleMouseMove = (e: MouseEvent) => {
 };
 
 const scrollToCollection = () => {
-    const element = document.getElementById('collection');
-    if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+    if (route.name === 'Home') {
+        const element = document.getElementById('collection');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    } else {
+        router.push({ name: 'Collection' });
     }
 };
 
 const watchStory = () => {
-    // Scroll to about/features section or do nothing
-    const element = document.getElementById('features');
-    if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+    if (route.name === 'Home') {
+        const element = document.getElementById('features');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    } else {
+        router.push({ name: 'Craftsmanship' });
     }
 };
 
@@ -30,6 +42,27 @@ onMounted(() => {
         isVisible.value = true;
     }, 1500);
     window.addEventListener('mousemove', handleMouseMove);
+    
+    // Lazy load video when it comes into view
+    nextTick(() => {
+        if (videoRef.value) {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting && !shouldLoadVideo.value) {
+                            shouldLoadVideo.value = true;
+                            if (videoRef.value) {
+                                videoRef.value.load();
+                            }
+                            observer.disconnect();
+                        }
+                    });
+                },
+                { rootMargin: '50px' }
+            );
+            observer.observe(videoRef.value);
+        }
+    });
 });
 
 onUnmounted(() => {
@@ -136,12 +169,20 @@ onUnmounted(() => {
                             isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
                         ]"
                     >
-                        <button @click="scrollToCollection" class="group relative w-full overflow-hidden rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 px-8 py-4 text-sm font-medium tracking-wider text-white shadow-lg shadow-purple-500/25 transition-all duration-500 hover:shadow-xl hover:shadow-purple-500/30 sm:w-auto sm:px-10">
+                        <button 
+                            @click="scrollToCollection" 
+                            aria-label="Explore our diamond collection"
+                            class="group relative w-full overflow-hidden rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 px-8 py-4 text-sm font-medium tracking-wider text-white shadow-lg shadow-purple-500/25 transition-all duration-500 hover:shadow-xl hover:shadow-purple-500/30 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:w-auto sm:px-10"
+                        >
                             <span class="relative z-10">EXPLORE COLLECTION</span>
                             <div class="absolute inset-0 bg-gradient-to-r from-pink-500 via-purple-500 to-cyan-500 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
                         </button>
-                        <button @click="watchStory" class="group flex w-full items-center justify-center gap-3 rounded-full border border-white/20 bg-white/5 px-8 py-4 text-sm font-medium tracking-wider text-white backdrop-blur-sm transition-all duration-500 hover:border-white/40 hover:bg-white/10 sm:w-auto sm:px-10">
-                            <svg class="h-5 w-5 transition-transform duration-300 group-hover:scale-110" fill="currentColor" viewBox="0 0 20 20">
+                        <button 
+                            @click="watchStory" 
+                            aria-label="Watch our story about craftsmanship"
+                            class="group flex w-full items-center justify-center gap-3 rounded-full border border-white/20 bg-white/5 px-8 py-4 text-sm font-medium tracking-wider text-white backdrop-blur-sm transition-all duration-500 hover:border-white/40 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:w-auto sm:px-10"
+                        >
+                            <svg class="h-5 w-5 transition-transform duration-300 group-hover:scale-110" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
                             </svg>
                             WATCH STORY
@@ -185,13 +226,14 @@ onUnmounted(() => {
                 >
                     <div class="relative mx-auto aspect-square max-w-md lg:max-w-none">
                         <!-- Outer glow rings -->
-                        <div class="absolute inset-0 animate-[spin_30s_linear_infinite] rounded-full border border-cyan-500/20"></div>
-                        <div class="absolute inset-4 animate-[spin_25s_linear_infinite_reverse] rounded-full border border-purple-500/20"></div>
-                        <div class="absolute inset-8 animate-[spin_20s_linear_infinite] rounded-full border border-pink-500/20"></div>
+                        <div class="absolute inset-0 animate-[spin_30s_linear_infinite] rounded-full border border-cyan-500/20" style="will-change: transform;"></div>
+                        <div class="absolute inset-4 animate-[spin_25s_linear_infinite_reverse] rounded-full border border-purple-500/20" style="will-change: transform;"></div>
+                        <div class="absolute inset-8 animate-[spin_20s_linear_infinite] rounded-full border border-pink-500/20" style="will-change: transform;"></div>
 
                         <!-- Main diamond image container -->
                         <div
                             class="absolute inset-0 flex items-center justify-center transition-transform duration-700"
+                            style="will-change: transform;"
                             :style="{ transform: `perspective(1000px) rotateX(${mouseY * 0.1}deg) rotateY(${mouseX * 0.1}deg)` }"
                         >
                             <!-- Diamond glow effect -->
@@ -200,13 +242,17 @@ onUnmounted(() => {
                             <!-- Diamond video -->
                             <div class="relative">
                                 <video
-                                    src="/gems_360.mp4"
+                                    ref="videoRef"
+                                    :src="shouldLoadVideo ? '/gems_360.mp4' : undefined"
                                     autoplay
                                     loop
                                     muted
                                     playsinline
+                                    preload="none"
+                                    poster="/diamond-logo.png"
                                     class="relative h-56 w-56 rounded-full object-cover shadow-2xl shadow-purple-500/20 ring-1 ring-white/10 sm:h-72 sm:w-72 lg:h-80 lg:w-80"
                                     aria-label="360 degree view of luxury GIA certified diamond engagement ring"
+                                    style="will-change: opacity;"
                                 />
                                 <!-- Overlay shine effect -->
                                 <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent"></div>

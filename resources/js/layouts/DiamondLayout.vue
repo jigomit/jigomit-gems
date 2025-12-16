@@ -69,18 +69,14 @@ const scrollToSection = (sectionId: string) => {
     const routeName = sectionRoutes[sectionId];
     
     if (routeName) {
-        // Navigate to the route (e.g., /collection instead of /#collection)
-        router.push({ name: routeName }).then(() => {
-            // Wait for the page to load and DOM to be ready, then scroll
-            nextTick(() => {
-                setTimeout(() => {
-                    const element = document.getElementById(sectionId);
-                    if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }, 300);
-            });
-        });
+        // Navigate to the dedicated page route
+        router.push({ name: routeName });
+    } else if (sectionId) {
+        // If it's not a mapped section, try scrolling on current page
+        const element = document.getElementById(sectionId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
     }
 };
 
@@ -344,12 +340,18 @@ onUnmounted(() => {
 <template>
 
     <div class="min-h-screen bg-[#0a0a0a] text-white antialiased">
+        <!-- Skip Links -->
+        <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:rounded-lg focus:bg-cyan-500 focus:px-4 focus:py-2 focus:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a]">
+            Skip to main content
+        </a>
+        
         <!-- Navigation -->
         <nav
             :class="[
                 'fixed top-0 z-50 w-full transition-all duration-500',
                 isScrolled ? 'bg-[#0a0a0a]/95 py-3 shadow-lg shadow-black/20 backdrop-blur-xl sm:py-4' : 'bg-transparent py-4 sm:py-6'
             ]"
+            aria-label="Main navigation"
         >
             <div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                 <!-- Logo -->
@@ -375,16 +377,20 @@ onUnmounted(() => {
                 </RouterLink>
 
                 <!-- Desktop Navigation -->
-                <div class="hidden items-center gap-6 lg:flex lg:gap-10">
-                    <a @click.prevent="scrollToSection('collection')" href="/collection" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-cyan-400">COLLECTION</a>
-                    <a @click.prevent="scrollToSection('features')" href="/craftsmanship" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-purple-400">CRAFTSMANSHIP</a>
-                    <a @click.prevent="scrollToSection('testimonials')" href="/testimonials" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-pink-400">TESTIMONIALS</a>
-                    <a @click.prevent="scrollToSection('contact')" href="/contact" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-cyan-400">CONTACT</a>
+                <div class="hidden items-center gap-6 lg:flex lg:gap-10" role="menubar">
+                    <a @click.prevent="scrollToSection('collection')" href="/collection" role="menuitem" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:rounded">COLLECTION</a>
+                    <a @click.prevent="scrollToSection('features')" href="/craftsmanship" role="menuitem" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:rounded">CRAFTSMANSHIP</a>
+                    <a @click.prevent="scrollToSection('testimonials')" href="/testimonials" role="menuitem" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:rounded">TESTIMONIALS</a>
+                    <a @click.prevent="scrollToSection('contact')" href="/contact" role="menuitem" class="cursor-pointer text-sm tracking-wider text-gray-300 transition-colors hover:text-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:rounded">CONTACT</a>
                 </div>
 
                 <!-- Desktop CTA -->
                 <div class="hidden items-center gap-4 lg:flex lg:gap-6">
-                    <button @click="signIn" class="text-sm tracking-wider text-gray-300 transition-colors hover:text-purple-400">
+                    <button 
+                        @click="signIn" 
+                        aria-label="Sign in to your account"
+                        class="text-sm tracking-wider text-gray-300 transition-colors hover:text-purple-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] focus:rounded"
+                    >
                         SIGN IN
                     </button>
                 </div>
@@ -392,7 +398,9 @@ onUnmounted(() => {
                 <!-- Mobile Menu Button -->
                 <button
                     @click="toggleMobileMenu"
-                    class="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 transition-all active:scale-95 lg:hidden sm:h-11 sm:w-11"
+                    :aria-expanded="isMobileMenuOpen"
+                    :aria-controls="isMobileMenuOpen ? 'mobile-menu' : undefined"
+                    class="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 transition-all active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0a] lg:hidden sm:h-11 sm:w-11"
                     aria-label="Toggle mobile menu"
                 >
                     <span
@@ -427,8 +435,12 @@ onUnmounted(() => {
             >
                 <div
                     v-if="isMobileMenuOpen"
+                    id="mobile-menu"
                     class="fixed inset-0 top-0 z-40 flex flex-col bg-[#0a0a0f] backdrop-blur-xl lg:hidden"
                     @click.self="closeMobileMenu"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-label="Mobile navigation menu"
                     style="min-height: 100vh; min-height: 100dvh;"
                 >
                     <!-- Background Pattern -->
@@ -504,12 +516,12 @@ onUnmounted(() => {
         </nav>
 
         <!-- Main Content -->
-        <main>
+        <main id="main-content" role="main">
             <slot />
         </main>
 
         <!-- Footer -->
-        <footer class="border-t border-white/5 bg-[#050508]">
+        <footer class="border-t border-white/5 bg-[#050508]" role="contentinfo">
             <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
                 <!-- Footer Grid -->
                 <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">

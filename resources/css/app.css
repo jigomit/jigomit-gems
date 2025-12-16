@@ -60,11 +60,17 @@ body {
     font-family: 'Cormorant Garamond', Georgia, serif;
 }
 
-/* Smooth transitions for all interactive elements */
+/* Smooth transitions for all interactive elements - using GPU-accelerated properties */
 a, button {
-    transition-property: color, background-color, border-color, transform, box-shadow;
+    transition-property: transform, opacity;
     transition-duration: 300ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+}
+
+/* Color transitions only when needed */
+a:hover, button:hover {
+    transition-property: color, background-color, border-color, transform, opacity;
 }
 
 /* Focus styles for accessibility */
@@ -72,6 +78,31 @@ a:focus-visible,
 button:focus-visible {
     outline: 2px solid #fbbf24;
     outline-offset: 2px;
+}
+
+/* Screen reader only class */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.sr-only:focus,
+.focus\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
 }
 
 /* Hide scrollbar during page load animation */
@@ -82,6 +113,7 @@ button:focus-visible {
 /* Animate on scroll helper classes */
 .animate-fade-up {
     animation: fadeUp 0.8s ease-out forwards;
+    will-change: transform, opacity;
 }
 
 @keyframes fadeUp {
@@ -93,6 +125,31 @@ button:focus-visible {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Optimize animations for compositing */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-\[spin_30s_linear_infinite\] {
+    animation: spin 30s linear infinite;
+    will-change: transform;
+}
+
+.animate-\[spin_25s_linear_infinite_reverse\] {
+    animation: spin 25s linear infinite reverse;
+    will-change: transform;
+}
+
+.animate-\[spin_20s_linear_infinite\] {
+    animation: spin 20s linear infinite;
+    will-change: transform;
 }
 
 /* Shimmer effect for luxury elements */

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
+const router = useRouter();
+const route = useRoute();
 const sectionRef = ref<HTMLElement | null>(null);
 const isVisible = ref(false);
 const hoveredIndex = ref<number | null>(null);
@@ -35,26 +38,35 @@ const collections = [
 let observer: IntersectionObserver | null = null;
 
 const viewAllCollections = () => {
-    // Scroll to collection section
-    const element = document.getElementById('collection');
-    if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+    if (route.name === 'Home') {
+        const element = document.getElementById('collection');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    } else {
+        router.push({ name: 'Collection' });
     }
 };
 
 const viewCollection = (collection: typeof collections[0]) => {
-    // Scroll to collection section
-    const element = document.getElementById('collection');
-    if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+    if (route.name === 'Home') {
+        const element = document.getElementById('collection');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    } else {
+        router.push({ name: 'Collection' });
     }
 };
 
 const startDesign = () => {
-    // Scroll to contact section to start design process
-    const element = document.getElementById('contact');
-    if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+    if (route.name === 'Home') {
+        const element = document.getElementById('contact');
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    } else {
+        router.push({ name: 'Contact' });
     }
 };
 
@@ -113,13 +125,14 @@ onUnmounted(() => {
                 </div>
                 <button
                     @click="viewAllCollections"
+                    aria-label="View all diamond collections"
                     :class="[
-                        'group flex items-center gap-2 text-sm tracking-wider text-gray-400 transition-all duration-700 delay-200 hover:text-white',
+                        'group flex items-center gap-2 text-sm tracking-wider text-gray-400 transition-all duration-700 delay-200 hover:text-white focus:outline-none focus:text-white focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f]',
                         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
                     ]"
                 >
                     VIEW ALL COLLECTIONS
-                    <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                 </button>
@@ -164,6 +177,10 @@ onUnmounted(() => {
                                 :src="collection.image"
                                 :alt="collection.alt"
                                 class="h-full w-full object-contain transition-transform duration-500 group-hover:scale-110"
+                                loading="lazy"
+                                width="280"
+                                height="280"
+                                decoding="async"
                             />
                         </div>
                         
@@ -199,9 +216,13 @@ onUnmounted(() => {
                         <p class="mb-4 text-sm text-gray-400 sm:mb-6 sm:text-base">
                             Work with our master craftsmen to design a one-of-a-kind piece that tells your unique story.
                         </p>
-                        <button @click="startDesign" class="group flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-medium tracking-wider text-black transition-all duration-300 hover:bg-gray-100 sm:px-6 sm:py-3 sm:text-sm">
+                        <button 
+                            @click="startDesign" 
+                            aria-label="Start your custom diamond design"
+                            class="group flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-medium tracking-wider text-black transition-all duration-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:px-6 sm:py-3 sm:text-sm"
+                        >
                             START YOUR DESIGN
-                            <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
                             </svg>
                         </button>
