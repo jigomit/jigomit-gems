@@ -28,6 +28,11 @@ const callUs = () => {
 };
 
 onMounted(() => {
+    // Show content immediately
+    setTimeout(() => {
+        isVisible.value = true;
+    }, 100);
+
     observer = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
