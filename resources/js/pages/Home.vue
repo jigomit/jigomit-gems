@@ -6,6 +6,7 @@ import DiamondHero from '@/components/DiamondHero.vue';
 import DiamondShowcase from '@/components/DiamondShowcase.vue';
 import FAQSection from '@/components/FAQSection.vue';
 import LuxuryFeatures from '@/components/LuxuryFeatures.vue';
+import PageLoader from '@/components/PageLoader.vue';
 import StatsSection from '@/components/StatsSection.vue';
 import TestimonialsSection from '@/components/TestimonialsSection.vue';
 import DiamondLayout from '@/layouts/DiamondLayout.vue';
@@ -115,6 +116,9 @@ onMounted(() => {
         description="Discover exceptional diamonds and luxury jewelry at GEMS Fifth Avenue New York. Expert guides on choosing engagement rings, diamond education, GIA certified diamonds. Explore our collections of round cut, pear cut, oval cut, and emerald cut diamonds."
         keywords="luxury diamond jewelry, engagement rings New York, diamond education guide, GIA certified diamonds, best diamond cuts 2025, how to choose engagement ring diamond, Fifth Avenue diamond store, expert diamond consultation, round cut vs oval cut diamonds, engagement ring budget guide"
     >
+        <!-- Page Loader -->
+        <PageLoader />
+
         <!-- Hero Section -->
         <DiamondHero />
 

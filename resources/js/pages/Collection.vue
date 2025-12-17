@@ -2,6 +2,7 @@
 import { onMounted } from 'vue';
 import CollectionGallery from '@/components/CollectionGallery.vue';
 import DiamondShowcase from '@/components/DiamondShowcase.vue';
+import PageLoader from '@/components/PageLoader.vue';
 import DiamondLayout from '@/layouts/DiamondLayout.vue';
 
 const addStructuredData = (data: object) => {
@@ -109,6 +110,9 @@ onMounted(() => {
         description="Explore our exceptional diamond collections including round cut, pear cut, oval cut, and emerald cut diamonds. Each piece is GIA certified and represents the pinnacle of nature's artistry."
         keywords="diamond collections, round cut diamonds, pear cut diamonds, oval cut diamonds, emerald cut diamonds, GIA certified diamonds, luxury diamond jewelry"
     >
+        <!-- Page Loader -->
+        <PageLoader />
+
         <!-- Diamond Showcase -->
         <DiamondShowcase />
 

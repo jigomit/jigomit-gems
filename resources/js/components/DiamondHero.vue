@@ -40,7 +40,7 @@ const watchStory = () => {
 onMounted(() => {
     setTimeout(() => {
         isVisible.value = true;
-    }, 100);
+    }, 1500);
     window.addEventListener('mousemove', handleMouseMove);
     
     // Lazy load video when it comes into view

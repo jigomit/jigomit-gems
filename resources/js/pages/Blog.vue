@@ -142,14 +142,14 @@ onMounted(() => {
                     >
                         <RouterLink :to="`/blog/${post.slug}`" class="block">
                             <!-- Image -->
-                            <div class="relative h-48 overflow-hidden sm:h-56">
+                            <div class="relative flex h-40 items-center justify-center overflow-hidden bg-gradient-to-br from-white/5 to-white/10 sm:h-44">
                                 <img
                                     :src="post.image"
                                     :alt="`${post.title} - ${post.category} diamond education article with expert buying tips and guides`"
-                                    class="h-full w-full object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                                    class="h-32 w-32 object-contain transition-transform duration-500 group-hover:scale-110 sm:h-36 sm:w-36"
                                     loading="lazy"
-                                    width="400"
-                                    height="300"
+                                    width="150"
+                                    height="150"
                                     decoding="async"
                                     fetchpriority="low"
                                 />
