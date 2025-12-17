@@ -135,7 +135,7 @@ onMounted(() => {
             </div>
 
             <!-- Content -->
-            <div class="prose prose-invert prose-lg max-w-none">
+            <div class="prose prose-invert prose-lg max-w-none rounded-2xl border border-white/10 bg-white/5 p-8 text-left backdrop-blur-sm sm:p-10 md:p-12">
                 <slot />
             </div>
         </div>
@@ -145,53 +145,138 @@ onMounted(() => {
 <style scoped>
 .prose {
     color: #d1d5db;
+    text-align: left;
 }
 
 .prose h2 {
     color: #ffffff;
     font-family: 'Instrument Sans', serif;
-    font-size: 1.875rem;
-    font-weight: 300;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    font-size: 2rem;
+    font-weight: 400;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.3;
+    text-align: left;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid rgba(6, 182, 212, 0.3);
+    background: linear-gradient(90deg, rgba(6, 182, 212, 0.1) 0%, transparent 100%);
+    padding-left: 1rem;
+    border-left: 4px solid rgb(6, 182, 212);
+}
+
+.prose h2:first-child {
+    margin-top: 0;
 }
 
 .prose h3 {
-    color: #e5e7eb;
+    color: #f3f4f6;
     font-family: 'Instrument Sans', serif;
     font-size: 1.5rem;
-    font-weight: 300;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
+    font-weight: 400;
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.4;
+    text-align: left;
+    padding-left: 1rem;
+    border-left: 3px solid rgba(168, 85, 247, 0.5);
 }
 
 .prose p {
-    margin-bottom: 1.25rem;
-    line-height: 1.75;
+    margin-bottom: 1.5rem;
+    line-height: 1.9;
+    text-align: left;
+    letter-spacing: 0.01em;
+    color: #e5e7eb;
 }
 
 .prose ul,
 .prose ol {
-    margin-bottom: 1.25rem;
-    padding-left: 1.5rem;
+    margin-top: 1.25rem;
+    margin-bottom: 2rem;
+    padding-left: 2rem;
+    list-style-position: outside;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 1.5rem 1.5rem 1.5rem 3rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.prose ul {
+    list-style-type: disc;
+}
+
+.prose ol {
+    list-style-type: decimal;
 }
 
 .prose li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    padding-left: 0.75rem;
+    color: #e5e7eb;
+}
+
+.prose li:last-child {
+    margin-bottom: 0;
+}
+
+.prose li strong {
+    display: inline-block;
+    margin-right: 0.5rem;
+    color: #06b6d4;
+    font-weight: 600;
+    font-size: 1.05em;
 }
 
 .prose strong {
     color: #ffffff;
-    font-weight: 500;
+    font-weight: 600;
+    background: linear-gradient(90deg, rgba(6, 182, 212, 0.15) 0%, rgba(168, 85, 247, 0.15) 100%);
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
 }
 
 .prose a {
     color: #06b6d4;
     text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: all 0.2s ease;
+    font-weight: 500;
 }
 
 .prose a:hover {
     color: #22d3ee;
+    text-decoration-thickness: 2px;
+}
+
+.prose :deep(ul ul),
+.prose :deep(ol ol) {
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    background: transparent;
+    border: none;
+    padding-left: 2rem;
+}
+
+.prose blockquote {
+    border-left: 4px solid rgba(6, 182, 212, 0.5);
+    padding-left: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: #d1d5db;
+    background: rgba(6, 182, 212, 0.05);
+    border-radius: 0.5rem;
+}
+
+.prose code {
+    background: rgba(6, 182, 212, 0.1);
+    color: #06b6d4;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+    font-family: 'Courier New', monospace;
 }
 </style>
 
