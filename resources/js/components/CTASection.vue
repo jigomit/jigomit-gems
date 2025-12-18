@@ -28,6 +28,7 @@ const callUs = () => {
 };
 
 onMounted(() => {
+    isVisible.value = true; // Show content immediately
     observer = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
