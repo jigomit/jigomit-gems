@@ -32,23 +32,43 @@ export default defineConfig({
         rollupOptions: {
             output: {
                 manualChunks(id) {
-                    // Split vendor chunks more aggressively
+                    // Split vendor chunks more aggressively for better caching
                     if (id.includes('node_modules')) {
-                        if (id.includes('vue')) {
-                            return 'vue-vendor';
+                        if (id.includes('vue') && !id.includes('vue-router')) {
+                            return 'vue-core';
                         }
                         if (id.includes('vue-router')) {
-                            return 'router-vendor';
+                            return 'vue-router';
                         }
-                        // Other node_modules
+                        // Split other vendors
                         return 'vendor';
                     }
-                    // Split large components
-                    if (id.includes('components') && id.includes('Diamond')) {
-                        return 'diamond-components';
+                    // Split large components into separate chunks
+                    if (id.includes('components')) {
+                        if (id.includes('DiamondHero') || id.includes('DiamondShowcase')) {
+                            return 'diamond-hero';
+                        }
+                        if (id.includes('Diamond')) {
+                            return 'diamond-components';
+                        }
+                        // Lazy loaded components
+                        if (id.includes('StatsSection') || id.includes('LuxuryFeatures') || 
+                            id.includes('TestimonialsSection') || id.includes('FAQSection') || 
+                            id.includes('CTASection')) {
+                            return 'below-fold';
+                        }
+                        return 'components';
                     }
+                    // Split pages for better code splitting
                     if (id.includes('pages')) {
+                        if (id.includes('Home')) {
+                            return 'home-page';
+                        }
                         return 'pages';
+                    }
+                    // Split layouts
+                    if (id.includes('layouts')) {
+                        return 'layouts';
                     }
                 },
                 // Optimize chunk names
@@ -70,8 +90,14 @@ export default defineConfig({
                 },
             },
         },
-        chunkSizeWarningLimit: 300,
+        chunkSizeWarningLimit: 500,
         minify: 'terser',
+        // Enable tree shaking more aggressively
+        treeshake: {
+            moduleSideEffects: false,
+            propertyReadSideEffects: false,
+            tryCatchDeoptimization: false,
+        },
         terserOptions: {
             compress: {
                 drop_console: true,

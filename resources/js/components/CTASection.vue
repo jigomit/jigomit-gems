@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import BookingModal from './BookingModal.vue';
 
 const sectionRef = ref<HTMLElement | null>(null);
@@ -8,7 +8,10 @@ const isModalOpen = ref(false);
 
 let observer: IntersectionObserver | null = null;
 
-const bookConsultation = () => {
+const bookConsultation = (event: Event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    // Set modal state immediately - the modal component handles the display
     isModalOpen.value = true;
 };
 
@@ -132,6 +135,7 @@ onUnmounted(() => {
                         ]"
                     >
                         <button 
+                            type="button"
                             @click="bookConsultation" 
                             aria-label="Book a private consultation"
                             class="group relative w-full overflow-hidden rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 px-8 py-4 text-sm font-medium tracking-[0.15em] text-white transition-all duration-500 hover:shadow-lg hover:shadow-purple-500/25 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:w-auto sm:px-12"
@@ -140,6 +144,7 @@ onUnmounted(() => {
                             <div class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full"></div>
                         </button>
                         <button 
+                            type="button"
                             @click="callUs" 
                             aria-label="Call us at +1-212-555-0123"
                             class="group w-full rounded-full border border-white/20 bg-transparent px-8 py-4 text-sm font-medium tracking-[0.15em] text-white transition-all duration-500 hover:border-purple-500/50 hover:text-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-[#0a0a0f] sm:w-auto sm:px-12"

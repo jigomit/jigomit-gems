@@ -28,21 +28,27 @@ const viewCollection = () => {
     
     if (currentRoute === 'Home') {
         // We're already on home, scroll to the collection section
-        nextTick(() => {
-            const element = document.getElementById('collection');
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth' });
-            }
+        // Use requestAnimationFrame to batch DOM operations and prevent forced reflow
+        requestAnimationFrame(() => {
+            nextTick(() => {
+                const element = document.getElementById('collection');
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
         });
     } else {
         // We're on a different page, navigate to home with hash
         router.push({ name: 'Home', hash: '#collection' }).then(() => {
             nextTick(() => {
                 setTimeout(() => {
-                    const element = document.getElementById('collection');
-                    if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    // Use requestAnimationFrame to batch DOM operations and prevent forced reflow
+                    requestAnimationFrame(() => {
+                        const element = document.getElementById('collection');
+                        if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    });
                 }, 300);
             });
         });

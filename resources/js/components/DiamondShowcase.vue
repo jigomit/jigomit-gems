@@ -60,10 +60,13 @@ let autoPlayInterval: ReturnType<typeof setInterval> | null = null;
 
 const requestViewing = () => {
     if (route.name === 'Home') {
-        const element = document.getElementById('contact');
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
+        // Use requestAnimationFrame to batch DOM operations and prevent forced reflow
+        requestAnimationFrame(() => {
+            const element = document.getElementById('contact');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     } else {
         router.push({ name: 'Contact' });
     }
@@ -169,10 +172,10 @@ onUnmounted(() => {
                                         :alt="`${diamonds[activeIndex].name} diamond - GIA certified luxury engagement ring diamond, ${diamonds[activeIndex].carat} carat ${diamonds[activeIndex].cut} cut, ${diamonds[activeIndex].color} color ${diamonds[activeIndex].clarity} clarity`" 
                                         class="h-[280px] w-[280px] object-contain opacity-90 sm:h-[360px] sm:w-[360px]"
                                         :loading="activeIndex === 0 ? 'eager' : 'lazy'"
+                                        :fetchpriority="activeIndex === 0 ? 'high' : 'low'"
                                         width="360"
                                         height="360"
                                         decoding="async"
-                                        :fetchpriority="activeIndex === 0 ? 'high' : 'low'"
                                     />
                                 </div>
                             </Transition>

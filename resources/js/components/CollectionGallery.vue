@@ -39,10 +39,13 @@ let observer: IntersectionObserver | null = null;
 
 const viewAllCollections = () => {
     if (route.name === 'Home') {
-        const element = document.getElementById('collection');
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
+        // Use requestAnimationFrame to batch DOM operations and prevent forced reflow
+        requestAnimationFrame(() => {
+            const element = document.getElementById('collection');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     } else {
         router.push({ name: 'Collection' });
     }
@@ -50,10 +53,13 @@ const viewAllCollections = () => {
 
 const viewCollection = (collection: typeof collections[0]) => {
     if (route.name === 'Home') {
-        const element = document.getElementById('collection');
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
+        // Use requestAnimationFrame to batch DOM operations and prevent forced reflow
+        requestAnimationFrame(() => {
+            const element = document.getElementById('collection');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     } else {
         router.push({ name: 'Collection' });
     }
@@ -61,10 +67,13 @@ const viewCollection = (collection: typeof collections[0]) => {
 
 const startDesign = () => {
     if (route.name === 'Home') {
-        const element = document.getElementById('contact');
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
+        // Use requestAnimationFrame to batch DOM operations and prevent forced reflow
+        requestAnimationFrame(() => {
+            const element = document.getElementById('contact');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     } else {
         router.push({ name: 'Contact' });
     }

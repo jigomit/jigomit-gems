@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import CollectionGallery from '@/components/CollectionGallery.vue';
-import CTASection from '@/components/CTASection.vue';
+import { onMounted, defineAsyncComponent, Suspense } from 'vue';
+// Critical above-the-fold components - load immediately
 import DiamondHero from '@/components/DiamondHero.vue';
 import DiamondShowcase from '@/components/DiamondShowcase.vue';
-import FAQSection from '@/components/FAQSection.vue';
-import LuxuryFeatures from '@/components/LuxuryFeatures.vue';
-import PageLoader from '@/components/PageLoader.vue';
-import StatsSection from '@/components/StatsSection.vue';
-import TestimonialsSection from '@/components/TestimonialsSection.vue';
+import CollectionGallery from '@/components/CollectionGallery.vue';
 import DiamondLayout from '@/layouts/DiamondLayout.vue';
+
+// Below-the-fold components - lazy load for better Speed Index
+const PageLoader = defineAsyncComponent(() => import('@/components/PageLoader.vue'));
+const StatsSection = defineAsyncComponent(() => import('@/components/StatsSection.vue'));
+const LuxuryFeatures = defineAsyncComponent(() => import('@/components/LuxuryFeatures.vue'));
+const TestimonialsSection = defineAsyncComponent(() => import('@/components/TestimonialsSection.vue'));
+const FAQSection = defineAsyncComponent(() => import('@/components/FAQSection.vue'));
+const CTASection = defineAsyncComponent(() => import('@/components/CTASection.vue'));
 
 const addStructuredData = (data: object) => {
     const script = document.createElement('script');
@@ -117,38 +120,64 @@ onMounted(() => {
         keywords="luxury diamond jewelry, engagement rings New York, diamond education guide, GIA certified diamonds, best diamond cuts 2025, how to choose engagement ring diamond, Fifth Avenue diamond store, expert diamond consultation, round cut vs oval cut diamonds, engagement ring budget guide"
     >
         <!-- Page Loader -->
-        <PageLoader />
+        <Suspense>
+            <PageLoader />
+            <template #fallback>
+                <div></div>
+            </template>
+        </Suspense>
 
-        <!-- Hero Section -->
+        <!-- Hero Section - Critical above the fold -->
         <DiamondHero />
 
-        <!-- Diamond Showcase -->
+        <!-- Diamond Showcase - Critical above the fold -->
         <div id="collection">
             <DiamondShowcase />
         </div>
 
-        <!-- Collection Gallery -->
+        <!-- Collection Gallery - Critical above the fold -->
         <CollectionGallery />
 
-        <!-- Stats Section -->
-        <StatsSection />
+        <!-- Below-the-fold sections - lazy loaded -->
+        <Suspense>
+            <StatsSection />
+            <template #fallback>
+                <div class="min-h-[400px]"></div>
+            </template>
+        </Suspense>
 
-        <!-- Features Section -->
-        <div id="features">
-            <LuxuryFeatures />
-        </div>
+        <Suspense>
+            <div id="features">
+                <LuxuryFeatures />
+            </div>
+            <template #fallback>
+                <div class="min-h-[600px]"></div>
+            </template>
+        </Suspense>
 
-        <!-- Testimonials Section -->
-        <div id="testimonials">
-            <TestimonialsSection />
-        </div>
+        <Suspense>
+            <div id="testimonials">
+                <TestimonialsSection />
+            </div>
+            <template #fallback>
+                <div class="min-h-[500px]"></div>
+            </template>
+        </Suspense>
 
-        <!-- FAQ Section -->
-        <FAQSection />
+        <Suspense>
+            <FAQSection />
+            <template #fallback>
+                <div class="min-h-[400px]"></div>
+            </template>
+        </Suspense>
 
-        <!-- CTA Section -->
-        <div id="contact">
-            <CTASection />
-        </div>
+        <Suspense>
+            <div id="contact">
+                <CTASection />
+            </div>
+            <template #fallback>
+                <div class="min-h-[300px]"></div>
+            </template>
+        </Suspense>
     </DiamondLayout>
 </template>

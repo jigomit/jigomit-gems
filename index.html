@@ -44,8 +44,13 @@
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;" />
         <noscript><link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600&display=swap" rel="stylesheet" /></noscript>
         
-        <!-- Preload critical images for LCP -->
-        <link rel="preload" as="image" href="/round_cut-removebg-preview.png" fetchpriority="high" />
+        <!-- Preload critical resources for LCP - highest priority -->
+        <link rel="preload" href="/diamond-logo.png" as="image" fetchpriority="high" />
+        <link rel="preload" href="/gems_360.mp4" as="video" type="video/mp4" fetchpriority="high" />
+        <link rel="preload" href="/round_cut-removebg-preview.png" as="image" fetchpriority="high" />
+        
+        <!-- DNS prefetch for video domain if external -->
+        <link rel="dns-prefetch" href="//jigomitgemsdaimond.netlify.app" />
         
         <!-- Critical CSS to prevent FOUC and improve LCP -->
         <style>
@@ -55,12 +60,18 @@
             *{box-sizing:border-box}
             /* Prevent layout shift during load */
             img,video{max-width:100%;height:auto;content-visibility:auto;display:block}
-            /* Optimize rendering */
-            [data-v-inert]{content-visibility:auto}
+            /* Optimize rendering - use contain for better performance */
+            [data-v-inert]{content-visibility:auto;contain:layout style paint}
             /* Improve font loading */
             @font-face{font-family:system-ui;font-style:normal;font-weight:400;font-display:swap}
-            /* Prevent FOUC */
-            body:not(.loaded){visibility:hidden}
+            /* Prevent FOUC - show content immediately */
+            body{visibility:visible}
+            /* Optimize hero section for LCP */
+            section{contain:layout style paint}
+            /* Reduce repaints */
+            .relative{will-change:auto}
+            /* Optimize video rendering */
+            video{contain:layout style paint;will-change:auto}
         </style>
         
         <!-- Manifest -->

@@ -8,19 +8,68 @@ const isVisible = ref(false);
 const mouseX = ref(0);
 const mouseY = ref(0);
 const videoRef = ref<HTMLVideoElement | null>(null);
-const shouldLoadVideo = ref(false);
+
+// Cache window dimensions to avoid forced reflows on every mousemove
+let cachedWindowWidth = typeof window !== 'undefined' ? window.innerWidth : 1920;
+let cachedWindowHeight = typeof window !== 'undefined' ? window.innerHeight : 1080;
+
+// Update cache on resize (throttled)
+let resizeTimeout: ReturnType<typeof setTimeout> | null = null;
+const handleResize = () => {
+    if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+    }
+    resizeTimeout = setTimeout(() => {
+        cachedWindowWidth = window.innerWidth;
+        cachedWindowHeight = window.innerHeight;
+    }, 100);
+};
+
+// Throttle mousemove to reduce forced reflows and Vue reactivity overhead
+let rafId: number | null = null;
+let lastUpdateTime = 0;
+const THROTTLE_MS = 16; // ~60fps
 
 const handleMouseMove = (e: MouseEvent) => {
-    mouseX.value = (e.clientX / window.innerWidth - 0.5) * 30;
-    mouseY.value = (e.clientY / window.innerHeight - 0.5) * 30;
+    const now = performance.now();
+    
+    // Throttle to reduce Vue reactivity overhead
+    if (now - lastUpdateTime < THROTTLE_MS) {
+        return;
+    }
+    
+    // Cancel any pending animation frame to batch updates
+    if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+    }
+    
+    // Batch style updates using requestAnimationFrame to prevent forced reflows
+    // Use cached dimensions to avoid reading window.innerWidth/innerHeight which can cause reflow
+    rafId = requestAnimationFrame(() => {
+        // Update values directly to minimize Vue reactivity overhead
+        const newX = (e.clientX / cachedWindowWidth - 0.5) * 30;
+        const newY = (e.clientY / cachedWindowHeight - 0.5) * 30;
+        
+        // Only update if values changed significantly to reduce reactivity triggers
+        if (Math.abs(mouseX.value - newX) > 0.1 || Math.abs(mouseY.value - newY) > 0.1) {
+            mouseX.value = newX;
+            mouseY.value = newY;
+        }
+        
+        lastUpdateTime = performance.now();
+        rafId = null;
+    });
 };
 
 const scrollToCollection = () => {
     if (route.name === 'Home') {
-        const element = document.getElementById('collection');
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
+        // Use requestAnimationFrame to batch DOM operations and prevent forced reflow
+        requestAnimationFrame(() => {
+            const element = document.getElementById('collection');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     } else {
         router.push({ name: 'Collection' });
     }
@@ -28,45 +77,56 @@ const scrollToCollection = () => {
 
 const watchStory = () => {
     if (route.name === 'Home') {
-        const element = document.getElementById('features');
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
+        // Use requestAnimationFrame to batch DOM operations and prevent forced reflow
+        requestAnimationFrame(() => {
+            const element = document.getElementById('features');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     } else {
         router.push({ name: 'Craftsmanship' });
     }
 };
 
 onMounted(() => {
-    setTimeout(() => {
-        isVisible.value = true;
-    }, 1500);
-    window.addEventListener('mousemove', handleMouseMove);
+    // Show content immediately for faster FCP and Speed Index
+    isVisible.value = true;
     
-    // Lazy load video when it comes into view
+    // Initialize cached dimensions immediately to avoid forced reflow
+    cachedWindowWidth = window.innerWidth;
+    cachedWindowHeight = window.innerHeight;
+    
+    // Add event listeners after initial render to avoid blocking
+    requestAnimationFrame(() => {
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
+        window.addEventListener('resize', handleResize, { passive: true });
+    });
+    
+    // Video loads immediately via preload="auto" attribute
+    // Just ensure it's ready - no delay needed
     nextTick(() => {
         if (videoRef.value) {
-            const observer = new IntersectionObserver(
-                (entries) => {
-                    entries.forEach((entry) => {
-                        if (entry.isIntersecting && !shouldLoadVideo.value) {
-                            shouldLoadVideo.value = true;
-                            if (videoRef.value) {
-                                videoRef.value.load();
-                            }
-                            observer.disconnect();
-                        }
-                    });
-                },
-                { rootMargin: '50px' }
-            );
-            observer.observe(videoRef.value);
+            // Force video to start loading immediately for LCP
+            videoRef.value.load();
+            // Play immediately if possible
+            videoRef.value.play().catch(() => {
+                // Ignore autoplay errors
+            });
         }
     });
 });
 
 onUnmounted(() => {
     window.removeEventListener('mousemove', handleMouseMove);
+    window.removeEventListener('resize', handleResize);
+    if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+    }
+    if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+    }
 });
 </script>
 
@@ -77,15 +137,15 @@ onUnmounted(() => {
             <!-- Primary gradient orbs -->
             <div
                 class="absolute -left-32 top-1/4 h-[500px] w-[500px] rounded-full bg-gradient-to-r from-cyan-500/20 via-blue-500/10 to-transparent blur-3xl transition-transform duration-1000"
-                :style="{ transform: `translate(${mouseX * 0.5}px, ${mouseY * 0.5}px)` }"
+                :style="{ transform: `translate(${mouseX * 0.5}px, ${mouseY * 0.5}px)`, willChange: 'transform' }"
             ></div>
             <div
                 class="absolute -right-32 top-1/3 h-[600px] w-[600px] rounded-full bg-gradient-to-l from-purple-500/20 via-pink-500/10 to-transparent blur-3xl transition-transform duration-1000"
-                :style="{ transform: `translate(${mouseX * -0.3}px, ${mouseY * -0.3}px)` }"
+                :style="{ transform: `translate(${mouseX * -0.3}px, ${mouseY * -0.3}px)`, willChange: 'transform' }"
             ></div>
             <div
                 class="absolute -bottom-32 left-1/3 h-[400px] w-[400px] rounded-full bg-gradient-to-t from-sky-500/15 to-transparent blur-3xl transition-transform duration-1000"
-                :style="{ transform: `translate(${mouseX * 0.2}px, ${mouseY * 0.2}px)` }"
+                :style="{ transform: `translate(${mouseX * 0.2}px, ${mouseY * 0.2}px)`, willChange: 'transform' }"
             ></div>
 
             <!-- Sparkle particles -->
@@ -226,15 +286,14 @@ onUnmounted(() => {
                 >
                     <div class="relative mx-auto aspect-square max-w-md lg:max-w-none">
                         <!-- Outer glow rings -->
-                        <div class="absolute inset-0 animate-[spin_30s_linear_infinite] rounded-full border border-cyan-500/20" style="will-change: transform;"></div>
-                        <div class="absolute inset-4 animate-[spin_25s_linear_infinite_reverse] rounded-full border border-purple-500/20" style="will-change: transform;"></div>
-                        <div class="absolute inset-8 animate-[spin_20s_linear_infinite] rounded-full border border-pink-500/20" style="will-change: transform;"></div>
+                        <div class="absolute inset-0 animate-[spin_30s_linear_infinite] rounded-full border border-cyan-500/20"></div>
+                        <div class="absolute inset-4 animate-[spin_25s_linear_infinite_reverse] rounded-full border border-purple-500/20"></div>
+                        <div class="absolute inset-8 animate-[spin_20s_linear_infinite] rounded-full border border-pink-500/20"></div>
 
                         <!-- Main diamond image container -->
                         <div
                             class="absolute inset-0 flex items-center justify-center transition-transform duration-700"
-                            style="will-change: transform;"
-                            :style="{ transform: `perspective(1000px) rotateX(${mouseY * 0.1}deg) rotateY(${mouseX * 0.1}deg)` }"
+                            :style="{ transform: `perspective(1000px) rotateX(${mouseY * 0.1}deg) rotateY(${mouseX * 0.1}deg)`, willChange: 'transform' }"
                         >
                             <!-- Diamond glow effect -->
                             <div class="absolute h-64 w-64 rounded-full bg-gradient-to-br from-cyan-400/30 via-purple-400/20 to-pink-400/30 blur-3xl sm:h-80 sm:w-80"></div>
@@ -243,16 +302,19 @@ onUnmounted(() => {
                             <div class="relative">
                                 <video
                                     ref="videoRef"
-                                    :src="shouldLoadVideo ? '/gems_360.mp4' : null"
+                                    src="/gems_360.mp4"
                                     autoplay
                                     loop
                                     muted
                                     playsinline
-                                    preload="none"
+                                    preload="auto"
                                     poster="/diamond-logo.png"
                                     class="relative h-56 w-56 rounded-full object-cover shadow-2xl shadow-purple-500/20 ring-1 ring-white/10 sm:h-72 sm:w-72 lg:h-80 lg:w-80"
+                                    width="320"
+                                    height="320"
                                     aria-label="360 degree view of luxury GIA certified diamond engagement ring"
-                                    style="will-change: opacity;"
+                                    fetchpriority="high"
+                                    loading="eager"
                                 />
                                 <!-- Overlay shine effect -->
                                 <div class="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/10 to-transparent"></div>

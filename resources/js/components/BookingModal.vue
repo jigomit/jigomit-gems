@@ -31,6 +31,7 @@ const formData = ref<BookingFormData>({
 const errors = ref<Partial<Record<keyof BookingFormData, string>>>({});
 const isSubmitting = ref(false);
 const isSubmitted = ref(false);
+const isOpening = ref(false);
 
 const validateForm = (): boolean => {
     errors.value = {};
@@ -96,20 +97,36 @@ const handleClose = () => {
 };
 
 const handleBackdropClick = (event: MouseEvent) => {
-    if (event.target === event.currentTarget && !isSubmitting.value) {
+    // Prevent closing if modal is still opening
+    if (isOpening.value || isSubmitting.value) {
+        return;
+    }
+    
+    // Only close if clicking directly on the backdrop container, not on child elements
+    const target = event.target as HTMLElement;
+    const currentTarget = event.currentTarget as HTMLElement;
+    
+    // Check if the click is on the backdrop itself (not on modal content)
+    if (target === currentTarget || target.classList.contains('backdrop-overlay')) {
         handleClose();
     }
 };
 
 const handleEscape = (event: KeyboardEvent) => {
-    if (event.key === 'Escape' && props.isOpen && !isSubmitting.value) {
+    if (event.key === 'Escape' && props.isOpen && !isSubmitting.value && !isOpening.value) {
         handleClose();
     }
 };
 
 watch(() => props.isOpen, (isOpen) => {
     if (isOpen) {
+        isOpening.value = true;
         document.body.style.overflow = 'hidden';
+        // Prevent backdrop clicks during opening animation
+        setTimeout(() => {
+            isOpening.value = false;
+        }, 350); // Slightly longer than the transition duration (300ms)
+        
         // Focus first input when modal opens
         setTimeout(() => {
             const firstInput = document.querySelector<HTMLInputElement>('#booking-name');
@@ -119,6 +136,7 @@ watch(() => props.isOpen, (isOpen) => {
         }, 100);
     } else {
         document.body.style.overflow = '';
+        isOpening.value = false;
     }
 });
 
@@ -144,11 +162,11 @@ onUnmounted(() => {
         >
             <div
                 v-if="isOpen"
-                class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto"
+                class="fixed inset-0 z-[9999] flex items-center justify-center p-4 overflow-y-auto"
                 @click="handleBackdropClick"
             >
                 <!-- Backdrop -->
-                <div class="fixed inset-0 bg-black/80 backdrop-blur-sm"></div>
+                <div class="backdrop-overlay fixed inset-0 z-0 bg-black/80 backdrop-blur-sm"></div>
 
                 <!-- Modal Content -->
                 <Transition

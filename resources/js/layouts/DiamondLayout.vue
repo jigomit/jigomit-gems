@@ -40,8 +40,34 @@ const updateLinkTag = (rel: string, href: string) => {
     element.setAttribute('href', href);
 };
 
+// Throttle scroll handler to reduce forced reflows
+let scrollRafId: number | null = null;
+let lastScrollTime = 0;
+const SCROLL_THROTTLE_MS = 16; // ~60fps
+
 const handleScroll = () => {
-    isScrolled.value = window.scrollY > 50;
+    const now = performance.now();
+    
+    // Throttle scroll updates to reduce Vue reactivity overhead
+    if (now - lastScrollTime < SCROLL_THROTTLE_MS) {
+        return;
+    }
+    
+    // Cancel any pending scroll update
+    if (scrollRafId !== null) {
+        cancelAnimationFrame(scrollRafId);
+    }
+    
+    // Use requestAnimationFrame to batch scroll reads and prevent forced reflow
+    scrollRafId = requestAnimationFrame(() => {
+        const scrolled = window.scrollY > 50;
+        // Only update if value changed to reduce reactivity triggers
+        if (isScrolled.value !== scrolled) {
+            isScrolled.value = scrolled;
+        }
+        lastScrollTime = performance.now();
+        scrollRafId = null;
+    });
 };
 
 const toggleMobileMenu = () => {
@@ -73,10 +99,13 @@ const scrollToSection = (sectionId: string) => {
         router.push({ name: routeName });
     } else if (sectionId) {
         // If it's not a mapped section, try scrolling on current page
-        const element = document.getElementById(sectionId);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
+        // Use requestAnimationFrame to batch DOM operations and prevent forced reflow
+        requestAnimationFrame(() => {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
     }
 };
 
@@ -107,28 +136,33 @@ const viewCollection = (cutName: string) => {
     const currentRoute = router.currentRoute.value.name;
     
     const scrollAndHighlight = () => {
-        const element = document.getElementById('collection');
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-            // After scrolling, try to highlight the specific collection item
-            setTimeout(() => {
-                const collectionItems = document.querySelectorAll('[data-collection-title]');
-                const cutNameLower = cutName.toLowerCase().replace(' cut', '');
-                collectionItems.forEach((item) => {
-                    const title = item.getAttribute('data-collection-title');
-                    if (title && title.toLowerCase().replace(' cut', '') === cutNameLower) {
-                        // Scroll the item into view within the collection section
-                        item.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-                        // Add a highlight effect
-                        const originalBorder = item.classList.contains('border-white/10') ? 'border-white/10' : '';
-                        item.classList.add('ring-2', 'ring-cyan-400', 'ring-opacity-75', 'scale-105');
-                        setTimeout(() => {
-                            item.classList.remove('ring-2', 'ring-cyan-400', 'ring-opacity-75', 'scale-105');
-                        }, 2000);
-                    }
-                });
-            }, 500);
-        }
+        // Use requestAnimationFrame to batch DOM operations and prevent forced reflow
+        requestAnimationFrame(() => {
+            const element = document.getElementById('collection');
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+                // After scrolling, try to highlight the specific collection item
+                setTimeout(() => {
+                    // Batch all DOM queries in requestAnimationFrame
+                    requestAnimationFrame(() => {
+                        const collectionItems = document.querySelectorAll('[data-collection-title]');
+                        const cutNameLower = cutName.toLowerCase().replace(' cut', '');
+                        collectionItems.forEach((item) => {
+                            const title = item.getAttribute('data-collection-title');
+                            if (title && title.toLowerCase().replace(' cut', '') === cutNameLower) {
+                                // Scroll the item into view within the collection section
+                                item.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+                                // Add a highlight effect
+                                item.classList.add('ring-2', 'ring-cyan-400', 'ring-opacity-75', 'scale-105');
+                                setTimeout(() => {
+                                    item.classList.remove('ring-2', 'ring-cyan-400', 'ring-opacity-75', 'scale-105');
+                                }, 2000);
+                            }
+                        });
+                    });
+                }, 500);
+            }
+        });
     };
     
     if (currentRoute === 'Home') {
@@ -334,6 +368,11 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener('scroll', handleScroll);
     document.body.style.overflow = '';
+    // Clean up scroll animation frame
+    if (scrollRafId !== null) {
+        cancelAnimationFrame(scrollRafId);
+        scrollRafId = null;
+    }
 });
 </script>
 
