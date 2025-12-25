@@ -132,6 +132,50 @@ button:focus-visible {
     }
 }
 
+/* LCP-optimized animations - CSS-only, no JS dependency */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes underlineExpand {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* Animation classes for LCP element - visible immediately without JS */
+.animate-fade-in-up-delay-200 {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+    will-change: transform, opacity;
+}
+
+.animate-fade-in-up-delay-300 {
+    animation: fadeInUp 0.8s ease-out 0.3s both;
+    will-change: transform, opacity;
+}
+
+/* LCP element - Perfection text - visible immediately, no animation delay */
+.lcp-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    animation: none !important;
+}
+
+.animate-underline-expand {
+    animation: underlineExpand 1s ease-out 0.7s forwards;
+    will-change: width;
+}
+
 /* Optimize animations for compositing */
 @keyframes spin {
     from {

@@ -43,6 +43,8 @@ const app = createApp(App);
 
 app.use(router);
 
+// Mount immediately without waiting for router to be ready
+// The initial HTML in index.html ensures LCP element is visible before Vue mounts
 app.mount('#app');
 
 // Mark body as loaded to prevent FOUC
